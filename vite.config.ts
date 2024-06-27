@@ -9,6 +9,7 @@ export default defineConfig({
       '@': '/src',
     },
   },
+  base: '/examples',
   build: {
     outDir: 'docs'
   }
