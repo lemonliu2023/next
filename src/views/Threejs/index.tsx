@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import useInitAll from '@/Hooks/useInitAll';
+import useInitAll from '@/hooks/useInitAll';
 import Scan from './components/Scan';
 // import Scan1 from './components/Scan/index1';
 // import Scan2 from './components/Scan/index2';
