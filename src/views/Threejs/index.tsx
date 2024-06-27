@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import useInitAll from '@/hooks/useInitAll';
-import Scan from './components/Scan';
+// import Scan from './components/Scan';
 // import Scan1 from './components/Scan/index1';
 // import Scan2 from './components/Scan/index2';
-import LianYi from './components/LianYi';
-import Glsl from './components/Glsl';
-// import Radar from '@/components/Radar';
+// import LianYi from './components/LianYi';
+// import Glsl from './components/Glsl';
+import Radar from '@/components/Radar';
+import './index.css'
 
 function Threejs() {
   const exampleList = [
