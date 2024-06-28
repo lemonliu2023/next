@@ -6,22 +6,54 @@ import './index.css';
 import lianYi from './shaders/lianYi';
 import radar from './shaders/radar';
 import scan from './shaders/scan';
+import laser from './shaders/laser';
+import glsl from './shaders/glsl';
 
 function Threejs() {
   const sceneRef = React.useRef<THREE.Scene>();
   const rendererRef = React.useRef<THREE.WebGLRenderer>();
   const exampleList = [
-    { id: 'test1', name: '涟漪', fn: () => {
-      sceneRef.current?.add(lianYi({
-        position: {x: 0, y: 0, z: 0},
-      }));
-    } },
-    { id: 'test2', name: '雷达扫描', fn: () => {
-      sceneRef.current?.add(radar({color: "#69BDF2", position: {x: 0, y: 0, z: 0}}));
-    } },
-    { id: 'test3', name: '二维码扫描', fn: () => {
-      sceneRef.current?.add(scan())
-    } },
+    {
+      id: 'lianyi',
+      name: '涟漪',
+      fn: () => {
+        sceneRef.current?.add(
+          lianYi({
+            position: { x: 0, y: 0, z: 0 },
+          })
+        );
+      },
+    },
+    {
+      id: 'radar',
+      name: '雷达扫描',
+      fn: () => {
+        sceneRef.current?.add(
+          radar({ color: '#69BDF2', position: { x: 0, y: 0, z: 0 } })
+        );
+      },
+    },
+    {
+      id: 'scan',
+      name: '二维码扫描',
+      fn: () => {
+        sceneRef.current?.add(scan());
+      },
+    },
+    {
+      id: 'laser',
+      name: '激光束',
+      fn: () => {
+        sceneRef.current?.add(laser());
+      },
+    },
+    {
+      id: 'glsl',
+      name: 'shaderToy实例加载',
+      fn: () => {
+        sceneRef.current?.add(glsl({renderer: rendererRef.current!}));
+      },
+    },
   ];
   const [activeIndex, setActiveIndex] = React.useState(0);
 
@@ -32,10 +64,10 @@ function Threejs() {
   }, []);
 
   useEffect(() => {
-    sceneRef.current?.children.forEach(item => {
-      if(item.type === 'AxesHelper') return;
-      sceneRef.current?.remove(item)
-    })
+    sceneRef.current?.children.forEach((item) => {
+      if (item.type === 'AxesHelper') return;
+      sceneRef.current?.remove(item);
+    });
     exampleList[activeIndex].fn();
   }, [activeIndex]);
 
@@ -47,8 +79,8 @@ function Threejs() {
           <div className="angle"></div>
         </div>
       </div>
-      <Row className="aside" style={{padding: 12}}>
-        <Space direction='vertical'>
+      <Row className="aside" style={{ padding: 12 }}>
+        <Space direction="vertical">
           {exampleList.map((example, index) => (
             <Button key={example.id} onClick={() => setActiveIndex(index)}>
               {example.name}
