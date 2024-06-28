@@ -7,7 +7,7 @@ export const initRender = (elementId: string) => {
     antialias: true,
     // alpha: true,
   });
-  renderer.setSize(window.innerWidth - 200, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   document.getElementById(elementId)?.appendChild(renderer.domElement);
@@ -17,7 +17,7 @@ export const initRender = (elementId: string) => {
 export const initCamera = () => {
   const camera = new THREE.PerspectiveCamera(
     45,
-    (window.innerWidth - 200) / window.innerHeight,
+    window.innerWidth / window.innerHeight,
     0.1,
     10000
   );
