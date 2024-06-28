@@ -1,9 +1,14 @@
 .container {
-  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 .aside {
-  width: 0px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .main {
-  flex: 1;
+  height: 100%;
+  width: 100%;
 }

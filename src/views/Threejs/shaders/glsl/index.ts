@@ -16,28 +16,27 @@ precision mediump float;
 
 uniform float time;
 uniform vec2 resolution;
-// uniform vec2 mouse;
+varying vec2 vUv;
 
-vec3 lazer(vec2 pos, vec3 clr, float mult)
+float lazer(vec2 pos)
 {
 	
 	float x = time/.33 * 2.0;
 	float w = fract(x*0.5);
 	w = sin(3.14156*w);
-	w *= 1.5+pos.x;
+	w *= 1.5 + pos.x;
 	w *= 2.0;
-        vec3 color = clr * mult * w / abs(pos.y);
+  float color = w / abs(pos.y) / 16.0;
 
-	float d = distance(pos,vec2(-1.0+fract(x*0.5)*2.,0.0));
-	color += (clr * 0.25*w/d);
-	return color;
+	float d = distance(pos, vec2(-1.0-fract(x*0.5)*2.,0.8));
+	color += (0.25*w/d);
+	return color / 4.0 < 0.3 ? 0.0 : color / 4.0;
 }
 
 void main()
 {
-	vec2 pos = ( gl_FragCoord.xy / resolution.xy * 2.0 ) - 1.0;
-	vec3 color = max(vec3(0.), lazer(pos, vec3(1.7, 0.2, 3.), 0.25));
-	gl_FragColor = vec4(color * 0.05, 1.0);
+	vec2 pos = ( vUv * 2.0 ) - 1.0; // 归一化 (0, 0) -> (1, 1) => (-1, -1) -> (1, 1)
+	gl_FragColor = vec4(1.7, 0.2, 3., lazer(pos));
 }
 `;
 
@@ -71,18 +70,20 @@ export default (options?: any) => {
       lineOpenTime: { value: lineOpenTime },
       scanTime: { value: scanTime },
       opacityTime: { value: opacityTime },
-      resolution: {value: new THREE.Vector2(1000, 1000)},
+      resolution: {value: new THREE.Vector2(100, 100)},
       mouse: {value: new THREE.Vector2(0, 0)},
     },
     vertexShader,
     fragmentShader,
     transparent: true,
+    // wireframe: true,
     side: THREE.DoubleSide,
   });
 
   // 平面几何体
-  const geometry = new THREE.PlaneGeometry(width, height, 1000, 1000);
-  const plane = new THREE.Mesh(geometry, material);
+  var myCylinderGeometry = new THREE.PlaneGeometry(200, 20, 100, 100);
+  // var myCylinderGeometry = new THREE.CylinderGeometry(6, 6, 10, 32);
+  const plane = new THREE.Mesh(myCylinderGeometry, material);
   plane.position.copy(new THREE.Vector3(...position));
 
   const startTime = performance.now();
@@ -97,7 +98,7 @@ export default (options?: any) => {
 
   function animate() {
     const currentTime = performance.now();
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animate)
     const elapsed = (currentTime - startTime) / 1000; // 时间转换为秒
     material.uniforms.time.value = elapsed; // 更新时间
   }

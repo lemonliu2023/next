@@ -77,7 +77,7 @@ void main()
   }
 }`;
 
-export default (options: any) => {
+export default (options?: any) => {
   const {
     lineWidth,
     height,
@@ -88,9 +88,9 @@ export default (options: any) => {
     opacityTime,
   } = Object.assign(
     {
-      lineWidth: 10,
-      height: 1000,
-      width: 1000,
+      lineWidth: 1,
+      height: 100,
+      width: 100,
       position: [0, 0, 0],
       lineOpenTime: 0.8,
       scanTime: 2.0,
