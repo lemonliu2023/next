@@ -2,7 +2,7 @@
   display: flex;
 }
 .aside {
-  width: 200px;
+  width: 0px;
 }
 .main {
   flex: 1;

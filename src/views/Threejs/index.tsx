@@ -4,7 +4,7 @@ import useInitAll from '@/hooks/useInitAll';
 // import Scan1 from './components/Scan/index1';
 // import Scan2 from './components/Scan/index2';
 // import LianYi from './components/LianYi';
-// import Glsl from './components/Glsl';
+import Glsl from '@/components/Glsl';
 import Radar from '@/components/Radar';
 import './index.css'
 
@@ -17,12 +17,12 @@ function Threejs() {
   const [activeIndex, setActiveIndex] = React.useState(0);
 
   useEffect(() => {
-    const { scene } = useInitAll(exampleList[activeIndex].id);
-    // scene.add(Glsl({renderer }));
+    const { scene, renderer } = useInitAll(exampleList[activeIndex].id);
+    scene.add(Glsl({renderer }));
     // scene.add(LianYi({
     //   position: {x: 0, y: 0, z: 0},
     // }));
-   scene.add(Radar({color: "#69BDF2"}));
+   scene.add(Radar({color: "#69BDF2", position: {x: 100, y: 100, z: 100}}));
   }, [])
 
   return (
