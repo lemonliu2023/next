@@ -9,7 +9,7 @@ import {
   ImageResizeBar,
   ImageToolBar,
   InlineFormatToolbar,
-  MarkdownToHtml,
+  // MarkdownToHtml,
   Muya,
   ParagraphFrontButton,
   ParagraphFrontMenu,
@@ -90,13 +90,13 @@ export default function MarkDown() {
     // })
 
     // only view
-    const md2Html = new MarkdownToHtml(DEFAULT_MARKDOWN);
-    md2Html.generate().then((_html) => {
-      // const container = document.createElement("div");
-      // container.innerHTML = _html;
-      // document.body.appendChild(container);
-      // console.log(_html);
-    });
+    // const md2Html = new MarkdownToHtml(DEFAULT_MARKDOWN);
+    // md2Html.generate().then((_html) => {
+    //   // const container = document.createElement("div");
+    //   // container.innerHTML = _html;
+    //   // document.body.appendChild(container);
+    //   // console.log(_html);
+    // });
     document.addEventListener('keydown', (e) => {
       // 检查按下的是否是S键
       if (
