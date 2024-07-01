@@ -17,7 +17,9 @@
     "react-dom": "^18.3.1",
     "react-router": "^6.24.0",
     "react-router-dom": "^6.24.0",
-    "three": "^0.165.0"
+    "three": "^0.165.0",
+    "@muyajs/core": "^0.0.32",
+    "intl-segmenter-polyfill": "^0.4.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
