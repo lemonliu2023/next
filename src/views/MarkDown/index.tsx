@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { Affix, Button, Input, Space, message } from 'antd';
 import type { TState } from '@muyajs/core';
 import '@muyajs/core/lib/style.css';
@@ -9,7 +10,6 @@ import {
   ImageResizeBar,
   ImageToolBar,
   InlineFormatToolbar,
-  // MarkdownToHtml,
   Muya,
   ParagraphFrontButton,
   ParagraphFrontMenu,
@@ -27,6 +27,7 @@ import { exportTextPlainContent } from '@/utils';
 export default function MarkDown() {
   const muyaRef = useRef<Muya>();
   const [replaceInput, setReplaceInput] = useState<string>('');
+  const navigate = useNavigate();
 
   // Fix Intl.Segmenter is not work on firefox.
   if (!(Intl as any).Segmenter) {
@@ -89,15 +90,7 @@ export default function MarkDown() {
     //   const { anchor, focus, path } = changes
     //   console.log(JSON.stringify([anchor.offset, focus.offset, path]))
     // })
-
-    // only view
-    // const md2Html = new MarkdownToHtml(DEFAULT_MARKDOWN);
-    // md2Html.generate().then((_html) => {
-    //   // const container = document.createElement("div");
-    //   // container.innerHTML = _html;
-    //   // document.body.appendChild(container);
-    //   // console.log(_html);
-    // });
+    
     document.addEventListener('keydown', (e) => {
       // 检查按下的是否是S键
       if (
@@ -190,6 +183,9 @@ export default function MarkDown() {
             }
             exportTextPlainContent(content, 'file.md')
           }}>导出</Button>
+          <Button onClick={() => {
+            navigate('/markdown/onlyView')
+          }}>仅查看</Button>
         </Space>
       </Affix>
       <div className="editor-container">

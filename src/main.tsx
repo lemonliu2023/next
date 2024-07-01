@@ -2,8 +2,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom';
-import MarkDown from './views/MarkDown/index.tsx';
+import Markdown from './views/Markdown/index.tsx';
 import Threejs from './views/Threejs/index.tsx';
+import OnlyView from './views/Markdown/OnlyView/index.tsx';
 
 const router = createHashRouter([
   {
@@ -12,7 +13,7 @@ const router = createHashRouter([
     children: [
       {
         path: '',
-        element: <Navigate to={'/threejs'} replace />
+        element: <Navigate to={'/threejs'} replace />,
       },
       {
         path: 'threejs',
@@ -20,9 +21,19 @@ const router = createHashRouter([
       },
       {
         path: 'markdown',
-        element: <MarkDown />,
+        element: <Markdown />,
+        children: [
+          // {
+          //   path: 'onlyView',
+          //   element: <OnlyView />,
+          // },
+        ],
       },
     ],
+  },
+  {
+    path: '/markdown/onlyView/',
+    element: <OnlyView />,
   },
 ]);
 

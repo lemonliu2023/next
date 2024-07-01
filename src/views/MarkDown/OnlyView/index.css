@@ -1,0 +1,4 @@
+/* muya 默认会渲染 */
+.mu-render-container {
+    display: none;
+  }
