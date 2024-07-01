@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Affix, Button, Input, Space } from 'antd';
+import { Affix, Button, Input, Space, message } from 'antd';
 import type { TState } from '@muyajs/core';
 import '@muyajs/core/lib/style.css';
 import {
@@ -22,6 +22,7 @@ import {
 } from '@muyajs/core';
 
 import { DEFAULT_MARKDOWN } from './data';
+import { exportTextPlainContent } from '@/utils';
 
 export default function MarkDown() {
   const muyaRef = useRef<Muya>();
@@ -79,9 +80,9 @@ export default function MarkDown() {
     muyaRef.current.init();
 
     muyaRef.current.on('json-change', (_changes) => {
-      console.log(JSON.stringify(muyaRef.current?.getState(), null, 2));
-      console.log(muyaRef.current?.getMarkdown());
-      console.log(JSON.stringify(_changes, null, 2));
+      // console.log(JSON.stringify(muyaRef.current?.getState(), null, 2));
+      // console.log(muyaRef.current?.getMarkdown());
+      // console.log(JSON.stringify(_changes, null, 2));
     });
 
     // muya.on('selection-change', changes => {
@@ -181,6 +182,14 @@ export default function MarkDown() {
           >
             设置内容
           </Button>
+          <Button onClick={() => {
+            const content = muyaRef.current?.getMarkdown()
+            if(!content?.trim()) {
+              message.warning('请输入文本')
+              return;
+            }
+            exportTextPlainContent(content, 'file.md')
+          }}>导出</Button>
         </Space>
       </Affix>
       <div className="editor-container">
