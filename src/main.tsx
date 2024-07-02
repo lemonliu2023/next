@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import Markdown from './views/Markdown/index.tsx';
 import Threejs from './views/Threejs/index.tsx';
 import OnlyView from './views/Markdown/OnlyView/index.tsx';
