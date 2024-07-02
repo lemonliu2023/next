@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { Affix, Button, Input, Space, message } from 'antd';
 import type { TState } from '@muyajs/core';
 import '@muyajs/core/lib/style.css';
@@ -90,7 +90,7 @@ export default function MarkDown() {
     //   const { anchor, focus, path } = changes
     //   console.log(JSON.stringify([anchor.offset, focus.offset, path]))
     // })
-    
+
     document.addEventListener('keydown', (e) => {
       // 检查按下的是否是S键
       if (
@@ -107,7 +107,7 @@ export default function MarkDown() {
   return (
     <div>
       <Affix>
-        <Space>
+        <Space style={{ paddingLeft: 268, paddingTop: 12 }}>
           <Button
             onClick={() => {
               muyaRef.current?.undo();
@@ -175,17 +175,25 @@ export default function MarkDown() {
           >
             设置内容
           </Button>
-          <Button onClick={() => {
-            const content = muyaRef.current?.getMarkdown()
-            if(!content?.trim()) {
-              message.warning('请输入文本')
-              return;
-            }
-            exportTextPlainContent(content, 'file.md')
-          }}>导出</Button>
-          <Button onClick={() => {
-            navigate('/markdown/onlyView')
-          }}>仅查看</Button>
+          <Button
+            onClick={() => {
+              const content = muyaRef.current?.getMarkdown();
+              if (!content?.trim()) {
+                message.warning('请输入文本');
+                return;
+              }
+              exportTextPlainContent(content, 'file.md');
+            }}
+          >
+            导出
+          </Button>
+          <Button
+            onClick={() => {
+              navigate('/markdown/onlyView');
+            }}
+          >
+            仅查看
+          </Button>
         </Space>
       </Affix>
       <div className="editor-container">

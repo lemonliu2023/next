@@ -8,11 +8,19 @@ import radar from './shaders/radar';
 import scan from './shaders/scan';
 import laser from './shaders/laser';
 import glsl from './shaders/glsl';
+import wall from './shaders/wall';
 
 function Threejs() {
   const sceneRef = React.useRef<THREE.Scene>();
   const rendererRef = React.useRef<THREE.WebGLRenderer>();
   const exampleList = [
+    {
+      id: 'wall',
+      name: '墙',
+      fn: () => {
+        sceneRef.current?.add(wall({position: [0, 0, 0], height: 4}))
+      }
+    },
     {
       id: 'lianyi',
       name: '涟漪',

@@ -2,6 +2,7 @@ import { MarkdownToHtml } from '@muyajs/core';
 import { DEFAULT_MARKDOWN } from '../data';
 import { useEffect, useState } from 'react';
 import { Skeleton, message } from 'antd';
+import './index.css'
 
 const OnlyView = () => {
   const [showSkeleton, setShowSkeleton] = useState(false);
@@ -20,7 +21,7 @@ const OnlyView = () => {
       setTimeout(() => {
         setShowSkeleton(false);
         viewerDom.setAttribute('style', 'display: block');
-      });
+      }, 500);
     });
   }, []);
   return (

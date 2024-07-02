@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@ant-design/icons':
+    specifier: ^5.3.7
+    version: 5.3.7(react-dom@18.3.1)(react@18.3.1)
   '@muyajs/core':
     specifier: ^0.0.32
     version: 0.0.32
@@ -419,7 +422,7 @@ packages:
   /@marktext/file-icons@1.0.6:
     resolution: {integrity: sha512-E9xMmaa4nqSdIjLfZyabIkbNMRPwr+SexzkRqGOWfLkgWiZHNL45JkiLLFBqBqn7ERUxzPgSVFt2MGnetlq2rA==}
     dependencies:
-      file-icons: git@github.com+file-icons/atom/2b897cb11552405322896080cb3406b96e678239
+      file-icons: github.com/file-icons/atom/2b897cb11552405322896080cb3406b96e678239
     dev: false
 
   /@mixmark-io/domino@2.2.0:
@@ -4001,8 +4004,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  git@github.com+file-icons/atom/2b897cb11552405322896080cb3406b96e678239:
-    resolution: {commit: 2b897cb11552405322896080cb3406b96e678239, repo: git@github.com:file-icons/atom.git, type: git}
+  github.com/file-icons/atom/2b897cb11552405322896080cb3406b96e678239:
+    resolution: {tarball: https://codeload.github.com/file-icons/atom/tar.gz/2b897cb11552405322896080cb3406b96e678239}
     name: file-icons
     version: 2.1.47
     engines: {atom: '>=1.25.0'}
