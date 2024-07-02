@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { name } from './package.json'
 import react from '@vitejs/plugin-react-swc';
 
 // https://vitejs.dev/config/
@@ -9,7 +10,7 @@ export default defineConfig({
       '@': '/src',
     },
   },
-  base: '/examples',
+  base: `/${name}`,
   build: {
     outDir: 'docs'
   }

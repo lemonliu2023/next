@@ -107,7 +107,7 @@ export default function MarkDown() {
   return (
     <div>
       <Affix>
-        <Space style={{ paddingLeft: 268, paddingTop: 12 }}>
+        <Space style={{ padding: 12 }}>
           <Button
             onClick={() => {
               muyaRef.current?.undo();

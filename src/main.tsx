@@ -11,24 +11,24 @@ const router = createHashRouter([
     path: '/',
     element: <App />,
     children: [
-      {
-        path: '',
-        element: <Navigate to={'/threejs'} replace />,
-      },
-      {
-        path: 'threejs',
-        element: <Threejs />,
-      },
-      {
-        path: 'markdown',
-        element: <Markdown />,
-        children: [
-          // {
-          //   path: 'onlyView',
-          //   element: <OnlyView />,
-          // },
-        ],
-      },
+      // {
+      //   path: '',
+      //   element: <Navigate to={'/threejs'} replace />,
+      // },
+    ],
+  },
+  {
+    path: '/threejs',
+    element: <Threejs />,
+  },
+  {
+    path: '/markdown',
+    element: <Markdown />,
+    children: [
+      // {
+      //   path: 'onlyView',
+      //   element: <OnlyView />,
+      // },
     ],
   },
   {
