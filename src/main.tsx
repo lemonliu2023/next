@@ -2,38 +2,29 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
-import Markdown from './views/Markdown/index.tsx';
-import Threejs from './views/Threejs/index.tsx';
-import OnlyView from './views/Markdown/OnlyView/index.tsx';
 
 const router = createHashRouter([
   {
     path: '/',
     element: <App />,
-    children: [
-      // {
-      //   path: '',
-      //   element: <Navigate to={'/threejs'} replace />,
-      // },
-    ],
   },
   {
     path: '/threejs',
-    element: <Threejs />,
+    lazy: async () => {
+      return ({ Component: (await import('./views/Threejs/index.tsx')).default })
+    }
   },
   {
     path: '/markdown',
-    element: <Markdown />,
-    children: [
-      // {
-      //   path: 'onlyView',
-      //   element: <OnlyView />,
-      // },
-    ],
+    lazy: async () => {
+      return ({ Component: (await import('./views/Markdown/index.tsx')).default })
+    }
   },
   {
     path: '/markdown/onlyView/',
-    element: <OnlyView />,
+    lazy: async () => {
+      return ({ Component: (await import('./views/Markdown/OnlyView/index.tsx')).default })
+    }
   },
 ]);
 
