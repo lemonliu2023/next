@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     react(),
     pluginImportToCDN({
-      modules: ['antd', 'react', 'react-dom', 'dayjs'],
+      modules: ['react', 'react-dom', 'dayjs', 'antd'],
     }),
   ],
   resolve: {
