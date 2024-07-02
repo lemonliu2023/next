@@ -30,9 +30,11 @@ export default function MarkDown() {
   const navigate = useNavigate();
 
   // Fix Intl.Segmenter is not work on firefox.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!(Intl as any).Segmenter) {
     import('intl-segmenter-polyfill/dist/bundled').then((polyfill) => {
       polyfill.createIntlSegmenterPolyfill().then((res) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (Intl as any).Segmenter = res;
       });
     });
@@ -83,7 +85,7 @@ export default function MarkDown() {
     muyaRef.current.on('json-change', (_changes) => {
       // console.log(JSON.stringify(muyaRef.current?.getState(), null, 2));
       // console.log(muyaRef.current?.getMarkdown());
-      // console.log(JSON.stringify(_changes, null, 2));
+      console.log(JSON.stringify(_changes, null, 2));
     });
 
     // muya.on('selection-change', changes => {
@@ -102,6 +104,10 @@ export default function MarkDown() {
         console.log('保存操作被触发！');
       }
     });
+    return () => {
+      // it doesn't work;
+      muyaRef.current?.destroy()
+    }
   }, []);
 
   return (
