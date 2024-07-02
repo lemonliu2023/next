@@ -106,8 +106,8 @@ export default function MarkDown() {
     });
     return () => {
       // it doesn't work;
-      muyaRef.current?.destroy()
-    }
+      muyaRef.current?.destroy();
+    };
   }, []);
 
   return (
