@@ -24,6 +24,18 @@ const router = createHashRouter([
         }
       },
       {
+        path: '/threejs/guide',
+        lazy: async () => {
+          return ({ Component: (await import('./views/Threejs/Guide/index.tsx')).default })
+        }
+      },
+      {
+        path: '/threejs/examples',
+        lazy: async () => {
+          return ({ Component: (await import('./views/Threejs/Examples/index.tsx')).default })
+        }
+      },
+      {
         path: '/markdown',
         lazy: async () => {
           return ({ Component: (await import('./views/Markdown/index.tsx')).default })

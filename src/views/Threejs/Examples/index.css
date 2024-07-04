@@ -1,0 +1,13 @@
+.threejs-examples-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.threejs-examples-main {
+  flex: 1;
+  height: 100%;
+}
+#threejs-examples {
+  height: 100%;
+  width: 100%;
+}
