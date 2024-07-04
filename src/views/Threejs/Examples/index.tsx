@@ -8,10 +8,13 @@ import scan from '../shaders/scan';
 import laser from '../shaders/laser';
 import glsl from '../shaders/glsl';
 import wall from '../shaders/wall';
+import line from '../shaders/line';
+import { useSearchParams } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 function Threejs() {
+  const [searchParams] = useSearchParams();
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
   const cleanAll = () => {
     sceneRef.current?.children.forEach((item) => {
@@ -82,6 +85,15 @@ function Threejs() {
             },
           },
         ],
+        [
+          'line',
+          {
+            label: 'line',
+            onClick: () => {
+              sceneRef.current?.add(line())
+            }
+          }
+        ]
       ]),
     [sceneRef, rendererRef]
   );
@@ -95,8 +107,13 @@ function Threejs() {
   }, [exampleMap]);
 
   useEffect(() => {
-    
-  }, [])
+    if(searchParams.get('type')) {
+      const item = exampleMap.get(searchParams.get('type') as string);
+      if (item && typeof item.onClick === 'function') {
+        item.onClick();
+      }
+    }
+  }, [searchParams, exampleMap])
 
   return (
     <div className="threejs-examples-container">
