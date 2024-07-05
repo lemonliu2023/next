@@ -88,7 +88,7 @@ const Shader = {
 export default function (opts?: any, geometry?: any) {
   const {
     radius = 50,
-    color = '#fff',
+    color = '#00FF00',
     speed = 1,
     opacity = 1,
     angle = Math.PI,
@@ -104,8 +104,51 @@ export default function (opts?: any, geometry?: any) {
     },
   } = opts || {};
   const width = 50 * 2;
+  const generateMaterial = (filename: string) => {
+    // 创建一个纹理，加载图像
+    const textureLoader = new THREE.TextureLoader();
+    const map = textureLoader.load('/next/public/' + filename);
+    // 定义着色器材质的着色器代码
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `;
+    const fragmentShader = `
+      uniform sampler2D map;
+      varying vec2 vUv;
+      void main() {
+        gl_FragColor = texture2D(map, vUv);
+      }
+    `;
+    const shaderMaterial = new THREE.ShaderMaterial({
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      transparent: true,
+      side: THREE.DoubleSide,
+      uniforms: {
+        map: {
+          value: map
+        }
+      }
+    });
+    return shaderMaterial;
+  };
+  const generateMesh = (filename: string, meshWidth: number = width, renderOrder?: number) => {
+    const geometry = new THREE.PlaneGeometry(meshWidth, meshWidth);
+    const material = generateMaterial(filename);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.rotation.set(rotation.x, rotation.y, rotation.z);
+    mesh.position.copy(position);
+    if(renderOrder) {
+      mesh.renderOrder = renderOrder;
+    }
+    return mesh;
+  }
   if (!geometry) {
-    geometry = new THREE.PlaneGeometry(width, width, 1, 1);
+    geometry = new THREE.PlaneGeometry(width , width, 1, 1);
   }
 
   const material = new THREE.ShaderMaterial({
@@ -136,16 +179,23 @@ export default function (opts?: any, geometry?: any) {
     fragmentShader: Shader.fragmentShader,
   });
 
+
   const mesh = new THREE.Mesh(geometry, material);
 
   mesh.rotation.set(rotation.x, rotation.y, rotation.z);
   mesh.position.copy(position);
 
+  const group = new THREE.Group();
+  group.add(mesh);
+  const centerMesh = generateMesh('radar_center.png', width);
+  group.add(generateMesh('radar_out.png', width, -1));
+  group.add(centerMesh);
+
   const animateFn = () => {
     material.uniforms.time.value += 0.05;
-
+    centerMesh.rotation.z -= 0.01;
     requestAnimationFrame(animateFn);
   };
   animateFn();
-  return mesh;
+  return group;
 }

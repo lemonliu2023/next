@@ -54,7 +54,7 @@ function Threejs() {
             label: '雷达扫描',
             onClick: () => {
               sceneRef.current?.add(
-                radar({ color: '#69BDF2', position: { x: 0, y: 0, z: 0 } })
+                radar({ position: { x: 0, y: 0, z: 0 } })
               );
             },
           },
