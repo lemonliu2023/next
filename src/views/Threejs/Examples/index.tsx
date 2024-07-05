@@ -10,6 +10,7 @@ import glsl from '../shaders/glsl';
 import wall from '../shaders/wall';
 import line from '../shaders/line';
 import { useSearchParams } from 'react-router-dom';
+import threeLine from '../shaders/threeLine';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -91,6 +92,15 @@ function Threejs() {
             label: 'line',
             onClick: () => {
               sceneRef.current?.add(line())
+            }
+          }
+        ],
+        [
+          'threeLine',
+          {
+            label: 'threeLine',
+            onClick: () => {
+              sceneRef.current?.add(threeLine())
             }
           }
         ]

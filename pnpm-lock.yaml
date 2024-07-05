@@ -38,6 +38,9 @@ dependencies:
   three:
     specifier: ^0.165.0
     version: 0.165.0
+  three.meshline:
+    specifier: ^1.4.0
+    version: 1.4.0
 
 devDependencies:
   '@types/react':
@@ -432,7 +435,7 @@ packages:
   /@marktext/file-icons@1.0.6:
     resolution: {integrity: sha512-E9xMmaa4nqSdIjLfZyabIkbNMRPwr+SexzkRqGOWfLkgWiZHNL45JkiLLFBqBqn7ERUxzPgSVFt2MGnetlq2rA==}
     dependencies:
-      file-icons: github.com/file-icons/atom/2b897cb11552405322896080cb3406b96e678239
+      file-icons: git@github.com+file-icons/atom/2b897cb11552405322896080cb3406b96e678239
     dev: false
 
   /@mixmark-io/domino@2.2.0:
@@ -3498,6 +3501,10 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
+  /three.meshline@1.4.0:
+    resolution: {integrity: sha512-A8IsiMrWP8zmHisGDAJ76ZD7t/dOF/oCe/FUKNE6Bu01ZYEx8N6IlU/1Plb2aOZtAuWM2A8s8qS3hvY0OFuvOw==}
+    dev: false
+
   /three@0.165.0:
     resolution: {integrity: sha512-cc96IlVYGydeceu0e5xq70H8/yoVT/tXBxV/W8A/U6uOq7DXc4/s1Mkmnu6SqoYGhSRWWYFOhVwvq6V0VtbplA==}
     dev: false
@@ -4127,8 +4134,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/file-icons/atom/2b897cb11552405322896080cb3406b96e678239:
-    resolution: {tarball: https://codeload.github.com/file-icons/atom/tar.gz/2b897cb11552405322896080cb3406b96e678239}
+  git@github.com+file-icons/atom/2b897cb11552405322896080cb3406b96e678239:
+    resolution: {commit: 2b897cb11552405322896080cb3406b96e678239, repo: git@github.com:file-icons/atom.git, type: git}
     name: file-icons
     version: 2.1.47
     engines: {atom: '>=1.25.0'}
