@@ -188,8 +188,8 @@ export default function (opts?: any, geometry?: any) {
   const group = new THREE.Group();
   group.add(mesh);
   const centerMesh = generateMesh('radar_center.png', width);
-  // group.add(generateMesh('radar_out.png', width, -1));
-  // group.add(centerMesh);
+  group.add(generateMesh('radar_out.png', width, -1));
+  group.add(centerMesh);
 
   const animateFn = () => {
     material.uniforms.time.value += 0.05;
