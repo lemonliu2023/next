@@ -16,7 +16,8 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 function Threejs() {
   const [searchParams] = useSearchParams();
-  const { sceneRef, rendererRef } = useInitAll('threejs-examples');
+  const { sceneRef, rendererRef, outlinePassRef } =
+    useInitAll('threejs-examples');
   const cleanAll = () => {
     sceneRef.current?.children.forEach((item) => {
       if (item.type === 'AxesHelper') return;
@@ -53,9 +54,7 @@ function Threejs() {
           {
             label: '雷达扫描',
             onClick: () => {
-              sceneRef.current?.add(
-                radar({ position: { x: 0, y: 0, z: 0 } })
-              );
+              sceneRef.current?.add(radar({ position: { x: 0, y: 0, z: 0 } }));
             },
           },
         ],
@@ -91,19 +90,23 @@ function Threejs() {
           {
             label: 'line',
             onClick: () => {
-              sceneRef.current?.add(line())
-            }
-          }
+              const lineMesh = line();
+              sceneRef.current?.add(lineMesh);
+              if (outlinePassRef.current?.selectedObjects) {
+                outlinePassRef.current.selectedObjects = [lineMesh];
+              }
+            },
+          },
         ],
         [
           'threeLine',
           {
             label: 'threeLine',
             onClick: () => {
-              sceneRef.current?.add(threeLine())
-            }
-          }
-        ]
+              sceneRef.current?.add(threeLine());
+            },
+          },
+        ],
       ]),
     [sceneRef, rendererRef]
   );
@@ -117,13 +120,13 @@ function Threejs() {
   }, [exampleMap]);
 
   useEffect(() => {
-    if(searchParams.get('type')) {
+    if (searchParams.get('type')) {
       const item = exampleMap.get(searchParams.get('type') as string);
       if (item && typeof item.onClick === 'function') {
         item.onClick();
       }
     }
-  }, [searchParams, exampleMap])
+  }, [searchParams, exampleMap]);
 
   return (
     <div className="threejs-examples-container">
