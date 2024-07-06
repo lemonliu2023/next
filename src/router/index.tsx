@@ -113,6 +113,15 @@ const routerConfig: RouteObject[] = [
                   };
                 },
               },
+              {
+                path: 'mask',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Examples/Mask'))
+                      .default,
+                  };
+                },
+              },
             ],
           },
         ],
