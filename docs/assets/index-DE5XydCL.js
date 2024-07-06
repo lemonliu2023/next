@@ -1,1 +1,0 @@
-import{j as e,N as s}from"./index-_yDWP6kv.js";const t=()=>e.jsxs("div",{children:[e.jsx(s,{to:"/threejs/guide",children:"guide"})," ",e.jsx(s,{to:"/threejs/examples",children:"examples"})]});export{t as default};
