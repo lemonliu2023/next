@@ -6,9 +6,7 @@ const Line = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
   useEffect(() => {
     sceneRef.current?.add(line());
-    return () => {
-      rendererRef.current?.dispose();
-    };
+    
   }, [rendererRef, sceneRef]);
   return (
     <>

@@ -40,48 +40,60 @@ export const initScene = () => {
   return scene;
 };
 
-const useInitAll = (elementId: string) => {
+const useInitAll = (
+  elementId: string,
+  options?: {
+    useOutlinePass?: boolean;
+  }
+) => {
   const rendererRef = useRef<THREE.WebGLRenderer>();
   const cameraRef = useRef<THREE.PerspectiveCamera>();
   const sceneRef = useRef<THREE.Scene>();
   const controlsRef = useRef<OrbitControls>();
   const outlinePassRef = useRef<OutlinePass>();
+  const composerRef = useRef<EffectComposer>();
+  const useOutlinePass = !!options?.useOutlinePass;
   useEffect(() => {
     const element = document.getElementById(elementId);
     if (!element) {
-      throw Error(`not found target element => ${elementId}`);
+      console.error(`not found target element => ${elementId}`);
+      return;
     }
     rendererRef.current = initRender(element);
     cameraRef.current = initCamera(element);
     sceneRef.current = initScene();
-    const renderScene = new RenderPass(sceneRef.current, cameraRef.current);
-    // OutlinePass第一个参数v2的尺寸和canvas画布保持一致
-    const v2 = new THREE.Vector2(window.innerWidth, window.innerHeight);
-    outlinePassRef.current = new OutlinePass(
-      v2,
-      sceneRef.current,
-      cameraRef.current
-    );
 
-    const composer = new EffectComposer(rendererRef.current);
-    outlinePassRef.current.visibleEdgeColor.set('#4d57fd'); // 可见边缘颜色
-    outlinePassRef.current.hiddenEdgeColor.set('#8a90f3'); // 隐藏边缘颜色
-    outlinePassRef.current.edgeStrength = 4; // 边缘的强度，值越高边框范围越大
-    outlinePassRef.current.edgeThickness = 5; // 边缘浓度
-    outlinePassRef.current.pulsePeriod = 3; // 闪烁频率，值越大频率越低
-    outlinePassRef.current.edgeGlow = 2.0; // 发光强度
-    composer.addPass(renderScene);
-    // 去锯齿 好像没用 -_-
-    const effectFXAA = new ShaderPass(FXAAShader);
-    effectFXAA.uniforms.resolution.value.set(
-      1 / window.innerWidth,
-      1 / window.innerHeight
-    );
-    composer.addPass(effectFXAA);
+    if (useOutlinePass) {
+      const renderScene = new RenderPass(sceneRef.current, cameraRef.current);
+      // OutlinePass第一个参数v2的尺寸和canvas画布保持一致
+      const v2 = new THREE.Vector2(window.innerWidth, window.innerHeight);
+      outlinePassRef.current = new OutlinePass(
+        v2,
+        sceneRef.current,
+        cameraRef.current
+      );
 
-    // 一个模型对象
-    outlinePassRef.current.selectedObjects = [];
-    composer.addPass(outlinePassRef.current);
+      composerRef.current = new EffectComposer(rendererRef.current);
+      outlinePassRef.current.visibleEdgeColor.set('#4d57fd'); // 可见边缘颜色
+      outlinePassRef.current.hiddenEdgeColor.set('#8a90f3'); // 隐藏边缘颜色
+      outlinePassRef.current.edgeStrength = 4; // 边缘的强度，值越高边框范围越大
+      outlinePassRef.current.edgeThickness = 5; // 边缘浓度
+      outlinePassRef.current.pulsePeriod = 3; // 闪烁频率，值越大频率越低
+      outlinePassRef.current.edgeGlow = 2.0; // 发光强度
+      composerRef.current.addPass(renderScene);
+      // 去锯齿 好像没用 -_-
+      const effectFXAA = new ShaderPass(FXAAShader);
+      effectFXAA.uniforms.resolution.value.set(
+        1 / window.innerWidth,
+        1 / window.innerHeight
+      );
+      composerRef.current.addPass(effectFXAA);
+
+      // 一个模型对象
+      outlinePassRef.current.selectedObjects = [];
+      composerRef.current.addPass(outlinePassRef.current);
+    }
+
     controlsRef.current = new OrbitControls(
       cameraRef.current,
       rendererRef.current.domElement
@@ -93,19 +105,25 @@ const useInitAll = (elementId: string) => {
     // new OrbitControls(camera, threeDRenderer.domElement)
     sceneRef.current.add(axesHelper);
     const animationFn = () => {
-      // rendererRef.current?.render(sceneRef.current!, cameraRef.current!);
-      composer.render();
+      if (!useOutlinePass) {
+        rendererRef.current?.render(sceneRef.current!, cameraRef.current!);
+      } else {
+        composerRef.current?.render();
+      }
       // threeDRenderer.render(scene!, camera!)
       requestAnimationFrame(animationFn);
     };
     animationFn();
-  }, [elementId]);
+    return () => {
+      rendererRef.current?.dispose();
+    };
+  }, [elementId, useOutlinePass]);
   return {
     rendererRef,
     cameraRef,
     sceneRef,
     controlsRef,
-    outlinePassRef
+    outlinePassRef,
   };
 };
 

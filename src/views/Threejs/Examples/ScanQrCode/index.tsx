@@ -6,9 +6,7 @@ const ScanQrCode = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
   useEffect(() => {
     sceneRef.current?.add(scanQrCode());
-    return () => {
-      rendererRef.current?.dispose();
-    };
+    
   }, [rendererRef, sceneRef]);
   return (
     <>

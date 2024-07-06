@@ -6,9 +6,7 @@ const Laser = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
   useEffect(() => {
     sceneRef.current?.add(laser());
-    return () => {
-      rendererRef.current?.dispose();
-    };
+    
   }, [rendererRef, sceneRef]);
   return (
     <>

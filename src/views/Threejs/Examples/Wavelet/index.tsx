@@ -6,9 +6,7 @@ const Wavelet = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
   useEffect(() => {
     sceneRef.current?.add(wavelet());
-    return () => {
-      rendererRef.current?.dispose();
-    };
+    
   }, [rendererRef, sceneRef]);
   return (
     <>

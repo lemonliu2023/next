@@ -6,9 +6,7 @@ const Wall = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
   useEffect(() => {
     sceneRef.current?.add(wall());
-    return () => {
-      rendererRef.current?.dispose();
-    };
+    
   }, [rendererRef, sceneRef]);
   return (
     <>

@@ -4,16 +4,16 @@ import tube from '@/views/Threejs/shaders/tube';
 
 const Tube = () => {
   const { sceneRef, rendererRef, outlinePassRef } =
-    useInitAll('threejs-examples');
+    useInitAll('threejs-examples', {
+      useOutlinePass: true
+    });
   useEffect(() => {
     const tubeMesh = tube();
     sceneRef.current?.add(tubeMesh);
     if (outlinePassRef.current?.selectedObjects) {
       outlinePassRef.current.selectedObjects = [tubeMesh];
     }
-    return () => {
-      rendererRef.current?.dispose();
-    };
+    
   }, [rendererRef, sceneRef, outlinePassRef]);
   return (
     <>
