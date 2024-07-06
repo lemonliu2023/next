@@ -14,7 +14,7 @@ export default function drawLine(options: any = {}) {
     opacity,
   } = Object.assign(
     {
-      textureUrl: '/next/public/tube_bg.png',
+      textureUrl: '/next/tube_bg.png',
       // color: 'purple',
       lineWidth: 4,
       speed: 10,

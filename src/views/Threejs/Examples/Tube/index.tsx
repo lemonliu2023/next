@@ -3,13 +3,18 @@ import { useEffect } from 'react';
 import tube from '@/views/Threejs/shaders/tube';
 
 const Tube = () => {
-  const { sceneRef, rendererRef } = useInitAll('threejs-examples');
+  const { sceneRef, rendererRef, outlinePassRef } =
+    useInitAll('threejs-examples');
   useEffect(() => {
-    sceneRef.current?.add(tube());
+    const tubeMesh = tube();
+    sceneRef.current?.add(tubeMesh);
+    if (outlinePassRef.current?.selectedObjects) {
+      outlinePassRef.current.selectedObjects = [tubeMesh];
+    }
     return () => {
       rendererRef.current?.dispose();
     };
-  }, [rendererRef, sceneRef]);
+  }, [rendererRef, sceneRef, outlinePassRef]);
   return (
     <>
       <div className="threejs-examples-main">

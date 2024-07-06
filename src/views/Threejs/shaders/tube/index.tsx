@@ -18,7 +18,7 @@ const line = () => {
     80,
     0.8
   );
-  const texture = new THREE.TextureLoader().load('/next/public/tube_bg.png');
+  const texture = new THREE.TextureLoader().load('/next/tube_bg.png');
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping; //每个都重复
   texture.repeat.set(1, 1);
   texture.needsUpdate = true;

@@ -107,7 +107,7 @@ export default function (opts?: any, geometry?: any) {
   const generateMaterial = (filename: string) => {
     // 创建一个纹理，加载图像
     const textureLoader = new THREE.TextureLoader();
-    const map = textureLoader.load('/next/public/' + filename);
+    const map = textureLoader.load('/next/' + filename);
     // 定义着色器材质的着色器代码
     const vertexShader = `
       varying vec2 vUv;
