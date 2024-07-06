@@ -1,55 +1,9 @@
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import './index.css';
-import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom';
-import Home from './views/Home/index.tsx';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
+import routerConfig from './router/index.tsx';
 
-const router = createHashRouter([
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        path: '',
-        element: <Navigate to={'/home'} />
-      },
-      {
-        path: '/home',
-        element: <Home />
-      },
-      {
-        path: '/threejs',
-        lazy: async () => {
-          return ({ Component: (await import('./views/Threejs/index.tsx')).default })
-        }
-      },
-      {
-        path: '/threejs/guide',
-        lazy: async () => {
-          return ({ Component: (await import('./views/Threejs/Guide/index.tsx')).default })
-        }
-      },
-      {
-        path: '/threejs/examples',
-        lazy: async () => {
-          return ({ Component: (await import('./views/Threejs/Examples/index.tsx')).default })
-        }
-      },
-      {
-        path: '/markdown',
-        lazy: async () => {
-          return ({ Component: (await import('./views/Markdown/index.tsx')).default })
-        }
-      },
-      {
-        path: '/markdown/onlyView/',
-        lazy: async () => {
-          return ({ Component: (await import('./views/Markdown/OnlyView/index.tsx')).default })
-        }
-      },
-    ]
-  },
-]);
+const router = createHashRouter(routerConfig);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <RouterProvider router={router} />

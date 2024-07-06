@@ -34,7 +34,7 @@ void main() {
 export default function (option = {}) {
     const newOption = Object.assign({
         color: '#f00',
-        position: null
+        position: { x: 0, y: 0, z: 0 }
     }, option)
     if(!newOption.position) {
         throw new Error('请传入模型位置信息')

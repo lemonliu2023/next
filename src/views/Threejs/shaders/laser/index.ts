@@ -64,7 +64,7 @@ export default (options?: any) => {
   });
 
   // 平面几何体
-  var myCylinderGeometry = new THREE.PlaneGeometry(width, height, 100, 100);
+  const myCylinderGeometry = new THREE.PlaneGeometry(width, height, 100, 100);
   const plane = new THREE.Mesh(myCylinderGeometry, material);
   plane.position.copy(new THREE.Vector3(...position));
 
