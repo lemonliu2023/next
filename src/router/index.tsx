@@ -105,6 +105,15 @@ const routerConfig: RouteObject[] = [
                 },
               },
               {
+                path: 'meshline',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Examples/Meshline'))
+                      .default,
+                  };
+                },
+              },
+              {
                 path: 'line',
                 lazy: async () => {
                   return {

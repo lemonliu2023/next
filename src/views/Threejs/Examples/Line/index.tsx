@@ -1,13 +1,12 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import line from '@/views/Threejs/shaders/line';
+import lineMesh from '@/views/Threejs/shaders/line';
 
-const Line = () => {
-  const { sceneRef, rendererRef } = useInitAll('threejs-examples');
+function Line() {
+  const { sceneRef } = useInitAll('threejs-examples');
   useEffect(() => {
-    sceneRef.current?.add(line());
-    
-  }, [rendererRef, sceneRef]);
+    sceneRef.current?.add(lineMesh());
+  }, [sceneRef]);
   return (
     <>
       <div className="threejs-examples-main">
@@ -15,6 +14,6 @@ const Line = () => {
       </div>
     </>
   );
-};
+}
 
 export default Line;
