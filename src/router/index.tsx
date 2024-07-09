@@ -142,6 +142,15 @@ const routerConfig: RouteObject[] = [
                   };
                 },
               },
+              {
+                path: 'planeLine',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Examples/PlaneLine'))
+                      .default,
+                  };
+                },
+              },
             ],
           },
         ],
