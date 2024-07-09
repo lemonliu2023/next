@@ -31,6 +31,17 @@ const routerConfig: RouteObject[] = [
                   .default,
               };
             },
+            children: [
+              {
+                path: 'removeMeshTest',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Guide/RemoveMeshTest'))
+                      .default,
+                  };
+                }
+              }
+            ]
           },
           {
             path: 'examples',
