@@ -1,25 +1,18 @@
-import * as THREE from 'three';
 import useInitAll from '@/hooks/useInitAll';
 import { Button } from 'antd';
 import { useEffect, useRef } from 'react';
-import wall from '@/views/Threejs/shaders/wall';
+import WallMesh from '@/views/Threejs/shaders/wall';
 import radar from '../../shaders/radar';
 
 function RemoveMeshTest() {
   const { sceneRef } = useInitAll('remove-mesh-test');
-  const wallRef = useRef<THREE.Mesh>();
+  const wallMeshRef = useRef<WallMesh>();
   useEffect(() => {
-    wallRef.current = wall();
-    sceneRef.current?.add(wallRef.current);
+    wallMeshRef.current = new WallMesh(sceneRef.current!);
+    wallMeshRef.current.addToScene()
   }, [sceneRef]);
   const changeMeshHandler = () => {
-    console.log(wallRef.current?.animations, 'wallRef.current?.animations')
-    wallRef.current!.geometry.dispose();
-    if(wallRef.current!.material instanceof THREE.ShaderMaterial) {
-      wallRef.current!.material.dispose()
-    }
-    console.log(wallRef.current!.material instanceof THREE.ShaderMaterial, 'wallRef.current!.material')
-    sceneRef.current?.remove(wallRef.current!);
+    wallMeshRef.current?.remove()
     sceneRef.current?.add(radar())
   };
   return (
