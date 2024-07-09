@@ -1,16 +1,24 @@
 import useInitAll from '@/hooks/useInitAll';
-import { useEffect } from 'react';
-import wall from '@/views/Threejs/shaders/wall';
+import { useEffect, useRef } from 'react';
+import WallMesh from '@/views/Threejs/shaders/wall';
+import { Button } from 'antd';
 
 const Wall = () => {
-  const { sceneRef, rendererRef } = useInitAll('threejs-examples');
+  const { sceneRef } = useInitAll('threejs-examples');
+  const wallMeshInsRef = useRef<WallMesh>();
   useEffect(() => {
-    sceneRef.current?.add(wall());
-    
-  }, [rendererRef, sceneRef]);
+    wallMeshInsRef.current = new WallMesh(sceneRef.current!);
+    wallMeshInsRef.current.addToScene();
+  }, [sceneRef]);
   return (
     <>
-      <div className="threejs-examples-main">
+      <div className="threejs-examples-main" style={{position: 'relative'}}>
+        <Button
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          onClick={() => wallMeshInsRef.current?.remove()}
+        >
+          移除元素
+        </Button>
         <div id="threejs-examples"></div>
       </div>
     </>
