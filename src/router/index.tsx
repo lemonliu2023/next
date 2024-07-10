@@ -143,14 +143,23 @@ const routerConfig: RouteObject[] = [
                 },
               },
               {
-                path: 'planeLine',
+                path: 'glowPlaneLine',
                 lazy: async () => {
                   return {
-                    Component: (await import('@/views/Threejs/Examples/PlaneLine'))
+                    Component: (await import('@/views/Threejs/Examples/GlowPlaneLine'))
                       .default,
                   };
                 },
               },
+              {
+                path: 'growBrokenGlowPlanLine',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Examples/GrowBrokenGlowPlanLine'))
+                      .default,
+                  };
+                },
+              }
             ],
           },
         ],

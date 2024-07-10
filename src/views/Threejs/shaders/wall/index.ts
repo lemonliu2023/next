@@ -1,10 +1,11 @@
 import * as THREE from 'three';
+import { transVector3 } from '../../utils';
 
-interface IOptions {
+export interface IOptions {
   color: string;
   radius: number;
   height: number;
-  position: [number, number, number];
+  position: THREE.Vector3 | [number, number, number];
   moveRate: number;
   speed: number; // 1s 运动一个周期
   baseOpacity: number; // 基础透明度
@@ -48,21 +49,19 @@ export default class WallMesh {
   material?: THREE.ShaderMaterial;
   geometry?: THREE.CylinderGeometry;
   animationId?: number;
-  constructor(scene: THREE.Scene, options?: IOptions) {
-    this.scene = scene;
+  constructor(scene: THREE.Scene, options?: Partial<IOptions>) {
     this.name = 'WallMesh';
-    this.options = Object.assign(
-      {
-        color: 'red',
-        radius: 20,
-        height: 40,
-        position: [0, 0, 0], // 圆柱的底面圆心位置
-        moveRate: 0.7,
-        speed: 2, // 1s 运动2个周期
-        baseOpacity: 0.5,
-      },
-      options
-    );
+    this.scene = scene;
+    const initOptions: IOptions = {
+      color: 'red',
+      radius: 20,
+      height: 40,
+      position: [0, 0, 0], // 圆柱的底面圆心位置
+      moveRate: 0.7,
+      speed: 2, // 1s 运动2个周期
+      baseOpacity: 0.5,
+    };
+    this.options = Object.assign(initOptions, options);
   }
   createMesh() {
     const { radius, height, color, position, baseOpacity } = this.options;
@@ -92,7 +91,7 @@ export default class WallMesh {
         },
         u_baseOpacity: {
           value: baseOpacity,
-        }
+        },
       },
       transparent: true,
       depthWrite: false, // 渲染此材质是否对深度缓冲区有任何影响。默认为true
@@ -102,7 +101,7 @@ export default class WallMesh {
       fragmentShader: fragmentShader,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.position.copy(new THREE.Vector3(...position));
+    this.mesh.position.copy(transVector3(position));
   }
   addToScene() {
     this.createMesh();
@@ -110,18 +109,18 @@ export default class WallMesh {
       console.error(`${this.name}未成功创建，请检查`);
       return;
     }
-    this.startAnimation(performance.now())
+    this.startAnimation(performance.now());
     this.scene.add(this.mesh);
   }
   remove() {
     this.scene.remove(this.mesh!);
-    this.geometry?.dispose()
-    this.material?.dispose()
+    this.geometry?.dispose();
+    this.material?.dispose();
     this.stopAnimation();
   }
   startAnimation(animationStartTime: number) {
     if (!animationStartTime || !this.material) {
-      console.error(`${this.name}动画开始依赖的动画开始时间和材质缺失，请检查`);
+      console.error(`${this.name}动画开始依赖的动画开始时间或材质缺失，请检查`);
       return;
     }
     const currentTime = performance.now();
@@ -129,10 +128,12 @@ export default class WallMesh {
     const notMoveHeight = (1 - moveRate) * height;
     const moveTime = (currentTime - animationStartTime) * 0.001; // 已经运动的时间，转换成秒
     // sin(2x - 1/2)π * 0.5 + 0.5
-    const fx = Math.sin((moveTime * 2 / speed - 0.5) * Math.PI) * 0.5 + 0.5;
+    const fx = Math.sin(((moveTime * 2) / speed - 0.5) * Math.PI) * 0.5 + 0.5;
     const targetHeight = notMoveHeight + fx * (moveRate * height); // 随时间变化的高度
     this.material.uniforms.u_height.value = targetHeight;
-    this.animationId = requestAnimationFrame(() => this.startAnimation(animationStartTime));
+    this.animationId = requestAnimationFrame(() =>
+      this.startAnimation(animationStartTime)
+    );
   }
   stopAnimation() {
     if (!this.animationId) {
