@@ -10,7 +10,6 @@ export interface IOptions {
   points: (THREE.Vector3 | [number, number, number])[];
 }
 
-
 const vertexShader = `
 varying vec2 vUv;
 
@@ -38,8 +37,11 @@ void main() {
 }
 `;
 
-
-function createMaterial(glowColor: string, centerColor: string, glowRate: number) {
+function createMaterial(
+  glowColor: string,
+  centerColor: string,
+  glowRate: number
+) {
   return new THREE.ShaderMaterial({
     uniforms: {
       u_amplitude: {
@@ -88,43 +90,40 @@ export default class GlowBrokenGlowPlaneLineMesh {
     this.options = Object.assign(initOptions, options);
   }
   createMesh() {
-    material = createMaterial('red', '#fff', 0.4)
+    material = createMaterial('red', '#fff', 0.4);
     this.mesh = new THREE.Group();
     const { points } = this.options;
     points.reduce((pre, cur) => {
-      console.log(pre, cur)
       const startVector3 = transVector3(pre);
       const endVector3 = transVector3(cur);
-      this.mesh?.add(
-        new GlowPlaneLineMesh(this.scene, {
-          start: startVector3,
-          end: endVector3,
-          material
-        }).createMesh() as any
-      );
+      const glowPlaneLineMesh = new GlowPlaneLineMesh(this.scene, {
+        start: startVector3,
+        end: endVector3,
+        material,
+      }).createMesh();
+      this.mesh?.add(glowPlaneLineMesh);
       return cur;
     });
-    
   }
   addToScene() {
-    this.createMesh()
+    this.createMesh();
     this.scene.add(this.mesh!);
     this.startAnimation(performance.now());
   }
   startAnimation(startAnimationTime: number) {
     if (!startAnimationTime || !material) {
-        console.error(`${this.name}动画开始依赖的动画开始时间或材质缺失，请检查`);
-        return;
-      }
-      const { speed } = this.options.glowPlaneLineOptions;
-      const currentTime = performance.now();
-      const moveTime = (currentTime - startAnimationTime) * 0.001; // 已经运动的时间，转换成秒
-      material.uniforms.u_amplitude.value = Math.sin(
-        2 * moveTime * Math.PI * speed
-      );
-      this.animationId = requestAnimationFrame(() =>
-        this.startAnimation(startAnimationTime)
-      );
+      console.error(`${this.name}动画开始依赖的动画开始时间或材质缺失，请检查`);
+      return;
+    }
+    const { speed } = this.options.glowPlaneLineOptions;
+    const currentTime = performance.now();
+    const moveTime = (currentTime - startAnimationTime) * 0.001; // 已经运动的时间，转换成秒
+    material.uniforms.u_amplitude.value = Math.sin(
+      2 * moveTime * Math.PI * speed
+    );
+    this.animationId = requestAnimationFrame(() =>
+      this.startAnimation(startAnimationTime)
+    );
   }
   stopAnimation() {}
 }
