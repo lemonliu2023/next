@@ -3,7 +3,7 @@ import { brokenLinePoints } from '../../data/points';
 import GlowBrokenGlowPlaneLineMesh from '../../shaders/growBrokenGlowPlaneLine';
 import { useEffect, useRef } from 'react';
 
-const GrowBrokenGlowPlanLine = () => {
+const GrowBrokenGlowPlaneLine = () => {
   const growBrokenGlowPlaneLineMeshRef = useRef<GlowBrokenGlowPlaneLineMesh>();
   const points = brokenLinePoints.map(
     (item) => [item.x, item.y, item.z] as [number, number, number]
@@ -11,13 +11,13 @@ const GrowBrokenGlowPlanLine = () => {
   const { sceneRef } = useInitAll('threejs-examples');
   useEffect(() => {
     growBrokenGlowPlaneLineMeshRef.current = new GlowBrokenGlowPlaneLineMesh(
-        sceneRef.current!,
-        {
-          points,
-        }
-      );
-      growBrokenGlowPlaneLineMeshRef.current.addToScene()
-  }, [sceneRef, growBrokenGlowPlaneLineMeshRef, points])
+      sceneRef.current!,
+      {
+        points,
+      }
+    );
+    growBrokenGlowPlaneLineMeshRef.current.addToScene();
+  }, [sceneRef, growBrokenGlowPlaneLineMeshRef, points]);
   return (
     <>
       <div className="threejs-examples-main">
@@ -27,4 +27,4 @@ const GrowBrokenGlowPlanLine = () => {
   );
 };
 
-export default GrowBrokenGlowPlanLine;
+export default GrowBrokenGlowPlaneLine;

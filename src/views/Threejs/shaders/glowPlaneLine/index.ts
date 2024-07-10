@@ -9,6 +9,7 @@ export interface IOptions {
   glowColor: string; // 发光颜色
   centerColor: string; // 中心颜色
   speed: number; // 1s 几个周期
+  material?: THREE.ShaderMaterial
 }
 
 export const initOptions: IOptions = {
@@ -48,6 +49,30 @@ void main() {
 }
 `;
 
+
+function createMaterial(glowColor: string, centerColor: string, glowRate: number) {
+  return new THREE.ShaderMaterial({
+    uniforms: {
+      u_amplitude: {
+        value: 0,
+      },
+      u_glowColor: {
+        value: new THREE.Color(glowColor),
+      },
+      u_centerColor: {
+        value: new THREE.Color(centerColor),
+      },
+      u_glowRate: {
+        value: glowRate,
+      },
+    },
+    side: THREE.DoubleSide,
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
+    transparent: true,
+  });
+}
+
 export default class GlowPlaneLineMesh {
   scene: THREE.Scene;
   options: IOptions;
@@ -62,7 +87,7 @@ export default class GlowPlaneLineMesh {
     this.options = Object.assign(initOptions, options);
   }
   createMesh() {
-    const { start, end, lineWidth, glowColor, glowRate, centerColor } =
+    const { start, end, lineWidth, glowColor, glowRate, centerColor, material } =
       this.options;
     // 将两个点转为三维坐标点
     const startVector3 = transVector3(start);
@@ -78,26 +103,7 @@ export default class GlowPlaneLineMesh {
     // 两点向量与z轴的弧度
     const rad = Math.acos(cos);
     // 创建mesh
-    this.material = new THREE.ShaderMaterial({
-      uniforms: {
-        u_amplitude: {
-          value: 0,
-        },
-        u_glowColor: {
-          value: new THREE.Color(glowColor),
-        },
-        u_centerColor: {
-          value: new THREE.Color(centerColor),
-        },
-        u_glowRate: {
-          value: glowRate,
-        },
-      },
-      side: THREE.DoubleSide,
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      transparent: true,
-    });
+    this.material = material || createMaterial(glowColor, centerColor, glowRate);
     this.geometry = new THREE.PlaneGeometry(lineWidth, twoDotDistance, 1, 10);
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     // 计算两点的中心点作为mesh的位置(中心)
@@ -108,6 +114,7 @@ export default class GlowPlaneLineMesh {
     this.mesh.rotation.x = -Math.PI / 2;
     // 沿z轴旋转角度
     this.mesh.rotation.z = rad;
+    return this.mesh;
   }
   createMeshAndStartAnimation() {
     this.createMesh();
