@@ -39,11 +39,11 @@ uniform float u_glowRate;
 
 void main() {
     if(vUv.x < u_glowRate) {
-        gl_FragColor = vec4(u_glowColor, pow(vUv.x / 0.35, 2.0 + u_amplitude ) * 0.6);
+        gl_FragColor = vec4(u_glowColor, pow(vUv.x / u_glowRate, 2.0 + u_amplitude ) * 0.6);
     } else if(vUv.x < (1.0 - u_glowRate)) {
         gl_FragColor = vec4(u_centerColor, 1.0);
     } else {
-        gl_FragColor = vec4(u_glowColor, pow((0.35 - vUv.x + 0.65) / 0.35, 2.0 + u_amplitude) * 0.6);
+        gl_FragColor = vec4(u_glowColor, pow((1.0 - vUv.x) / u_glowRate, 2.0 + u_amplitude) * 0.6);
     }
 }
 `;
@@ -98,7 +98,7 @@ export default class GlowPlaneLineMesh {
       fragmentShader: fragmentShader,
       transparent: true,
     });
-    this.geometry = new THREE.PlaneGeometry(lineWidth, twoDotDistance, 100, 1000);
+    this.geometry = new THREE.PlaneGeometry(lineWidth, twoDotDistance, 1, 10);
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     // 计算两点的中心点作为mesh的位置(中心)
     const centerPoint = new THREE.Vector3();

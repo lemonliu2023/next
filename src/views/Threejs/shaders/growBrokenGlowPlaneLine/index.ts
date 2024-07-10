@@ -72,7 +72,7 @@ export default class GlowBrokenGlowPlaneLineMesh {
     this.glowPlaneLineMeshInsList[this.brokenCur] =
       this.createGlowPlaneLineMesh()!;
     this.mesh?.add(this.glowPlaneLineMeshInsList[this.brokenCur].mesh as any);
-    this.cur += 1;
+    this.cur += 3;
     if (this.cur >= this.points.length - 1) {
       console.log(
         this.cur,
