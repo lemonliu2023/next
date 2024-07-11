@@ -14,6 +14,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
+      '3DObjects': '/src/views/Threejs/3DObjects',
     },
   },
   base: `/${name}`,

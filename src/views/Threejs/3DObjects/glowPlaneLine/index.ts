@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { transVector3 } from '../../utils';
+import { createGlowPlaneLineMaterial } from '../../utils/planeLine';
 
 export interface IOptions {
   start: THREE.Vector3 | [number, number, number];
@@ -22,61 +23,10 @@ export const initOptions: IOptions = {
   speed: 2,
 };
 
-const vertexShader = `
-varying vec2 vUv;
-
-void main() {
-    vec3 vPosition = position;
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
-}
-`;
-const fragmentShader = ` 
-varying vec2 vUv;
-uniform float u_amplitude;
-uniform vec3 u_glowColor;
-uniform vec3 u_centerColor;
-uniform float u_glowRate;
-
-void main() {
-    if(vUv.x < u_glowRate) {
-        gl_FragColor = vec4(u_glowColor, pow(vUv.x / u_glowRate, 2.0 + u_amplitude ) * 0.6);
-    } else if(vUv.x < (1.0 - u_glowRate)) {
-        gl_FragColor = vec4(u_centerColor, 1.0);
-    } else {
-        gl_FragColor = vec4(u_glowColor, pow((1.0 - vUv.x) / u_glowRate, 2.0 + u_amplitude) * 0.6);
-    }
-}
-`;
-
-
-function createMaterial(glowColor: string, centerColor: string, glowRate: number) {
-  return new THREE.ShaderMaterial({
-    uniforms: {
-      u_amplitude: {
-        value: 0,
-      },
-      u_glowColor: {
-        value: new THREE.Color(glowColor),
-      },
-      u_centerColor: {
-        value: new THREE.Color(centerColor),
-      },
-      u_glowRate: {
-        value: glowRate,
-      },
-    },
-    side: THREE.DoubleSide,
-    vertexShader: vertexShader,
-    fragmentShader: fragmentShader,
-    transparent: true,
-  });
-}
-
 export default class GlowPlaneLineMesh {
   scene: THREE.Scene;
   options: IOptions;
-  name: string;
+  name = 'GlowPlaneLine';
   mesh?: THREE.Mesh;
   material?: THREE.ShaderMaterial;
   geometry?: THREE.PlaneGeometry;
@@ -103,7 +53,7 @@ export default class GlowPlaneLineMesh {
     // 两点向量与z轴的弧度
     const rad = Math.acos(cos);
     // 创建mesh
-    this.material = material || createMaterial(glowColor, centerColor, glowRate);
+    this.material = material || createGlowPlaneLineMaterial(glowColor, centerColor, glowRate);
     this.geometry = new THREE.PlaneGeometry(lineWidth, twoDotDistance, 1, 10);
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     // 计算两点的中心点作为mesh的位置(中心)
@@ -118,10 +68,6 @@ export default class GlowPlaneLineMesh {
   }
   createMeshAndStartAnimation() {
     this.createMesh();
-    if (!this.mesh) {
-      console.error(`${this.name}未成功创建，请检查`);
-      return;
-    }
     this.startAnimation(performance.now());
     return this
   }

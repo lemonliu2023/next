@@ -1,8 +1,8 @@
 import useInitAll from '@/hooks/useInitAll';
 import { Button } from 'antd';
 import { useEffect, useRef } from 'react';
-import WallMesh from '@/views/Threejs/shaders/wall';
-import radar from '../../shaders/radar';
+import WallMesh from '3DObjects/wall';
+import radar from '3DObjects/radar';
 
 function RemoveMeshTest() {
   const { sceneRef } = useInitAll('remove-mesh-test');

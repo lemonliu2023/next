@@ -4,72 +4,19 @@ import GlowPlaneLineMesh, {
   initOptions as glowPlaneLineInitOptions,
 } from '../glowPlaneLine';
 import { transVector3 } from '../../utils';
+import { createGlowPlaneLineMaterial } from '../../utils/planeLine';
 
 export interface IOptions {
   glowPlaneLineOptions: GlowPlaneLineOptions;
-  points: (THREE.Vector3 | [number, number, number])[];
+  points: ([THREE.Vector3, THREE.Vector3] | [ [number, number, number], [number, number, number] ])[];
 }
 
-const vertexShader = `
-varying vec2 vUv;
 
-void main() {
-    vec3 vPosition = position;
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
-}
-`;
-const fragmentShader = ` 
-varying vec2 vUv;
-uniform float u_amplitude;
-uniform vec3 u_glowColor;
-uniform vec3 u_centerColor;
-uniform float u_glowRate;
-
-void main() {
-    if(vUv.x < u_glowRate) {
-        gl_FragColor = vec4(u_glowColor, pow(vUv.x / u_glowRate, 2.0 + u_amplitude ) * 0.6);
-    } else if(vUv.x < (1.0 - u_glowRate)) {
-        gl_FragColor = vec4(u_centerColor, 1.0);
-    } else {
-        gl_FragColor = vec4(u_glowColor, pow((1.0 - vUv.x) / u_glowRate, 2.0 + u_amplitude) * 0.6);
-    }
-}
-`;
-
-function createMaterial(
-  glowColor: string,
-  centerColor: string,
-  glowRate: number
-) {
-  return new THREE.ShaderMaterial({
-    uniforms: {
-      u_amplitude: {
-        value: 0,
-      },
-      u_glowColor: {
-        value: new THREE.Color(glowColor),
-      },
-      u_centerColor: {
-        value: new THREE.Color(centerColor),
-      },
-      u_glowRate: {
-        value: glowRate,
-      },
-    },
-    side: THREE.DoubleSide,
-    vertexShader: vertexShader,
-    fragmentShader: fragmentShader,
-    transparent: true,
-  });
-}
-
-let material: THREE.ShaderMaterial;
 export default class GlowBrokenGlowPlaneLineMesh {
   name: string;
   scene: THREE.Scene;
   options: IOptions;
-  mesh?: THREE.Group;
+  mesh?: THREE.Object3D;
   material?: THREE.ShaderMaterial;
   geometry?: THREE.PlaneGeometry;
   animationId?: number;
@@ -87,38 +34,47 @@ export default class GlowBrokenGlowPlaneLineMesh {
       points: [],
       glowPlaneLineOptions: glowPlaneLineInitOptions,
     };
-    this.options = Object.assign(initOptions, options);
+    this.options = Object.assign(initOptions, {
+      ...options,
+      glowPlaneLineOptions: {
+        ...glowPlaneLineInitOptions,
+        ...options?.glowPlaneLineOptions,
+      },
+    });
   }
   createMesh() {
-    material = createMaterial('red', '#fff', 0.4);
+    const {
+      glowPlaneLineOptions: { glowColor, glowRate, centerColor },
+    } = this.options;
+    this.material = createGlowPlaneLineMaterial(glowColor, centerColor, glowRate);
     this.mesh = new THREE.Group();
     const { points } = this.options;
-    points.reduce((pre, cur) => {
-      const startVector3 = transVector3(pre);
-      const endVector3 = transVector3(cur);
+    points.forEach(([start, end]) => {
+      const startVector3 = transVector3(start);
+      const endVector3 = transVector3(end);
       const glowPlaneLineMesh = new GlowPlaneLineMesh(this.scene, {
         start: startVector3,
         end: endVector3,
-        material,
+        material: this.material,
       }).createMesh();
       this.mesh?.add(glowPlaneLineMesh);
-      return cur;
-    });
+    })
+    return this.mesh;
   }
   addToScene() {
     this.createMesh();
-    this.scene.add(this.mesh!);
     this.startAnimation(performance.now());
+    this.scene.add(this.mesh!);
   }
   startAnimation(startAnimationTime: number) {
-    if (!startAnimationTime || !material) {
+    if (!startAnimationTime || !this.material) {
       console.error(`${this.name}动画开始依赖的动画开始时间或材质缺失，请检查`);
       return;
     }
     const { speed } = this.options.glowPlaneLineOptions;
     const currentTime = performance.now();
     const moveTime = (currentTime - startAnimationTime) * 0.001; // 已经运动的时间，转换成秒
-    material.uniforms.u_amplitude.value = Math.sin(
+    this.material.uniforms.u_amplitude.value = Math.sin(
       2 * moveTime * Math.PI * speed
     );
     this.animationId = requestAnimationFrame(() =>

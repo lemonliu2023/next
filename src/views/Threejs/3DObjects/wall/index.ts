@@ -42,15 +42,14 @@ void main() {
 `;
 
 export default class WallMesh {
+  name = 'Wall3DObject';
   scene: THREE.Scene;
   options: IOptions;
-  name: string;
-  mesh?: THREE.Mesh;
   material?: THREE.ShaderMaterial;
   geometry?: THREE.CylinderGeometry;
+  mesh?: THREE.Mesh;
   animationId?: number;
   constructor(scene: THREE.Scene, options?: Partial<IOptions>) {
-    this.name = 'WallMesh';
     this.scene = scene;
     const initOptions: IOptions = {
       color: 'red',
@@ -61,7 +60,10 @@ export default class WallMesh {
       speed: 2, // 1s 运动2个周期
       baseOpacity: 0.5,
     };
-    this.options = Object.assign(initOptions, options);
+    this.options = {
+      ...initOptions,
+      ...options,
+    };
   }
   createMesh() {
     const { radius, height, color, position, baseOpacity } = this.options;

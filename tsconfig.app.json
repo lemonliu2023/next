@@ -3,7 +3,8 @@
     /* I don't know why these config cannot write in tsconfig.json */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "3DObjects/*": ["src/views/Threejs/3DObjects/*"]
     },
 
     "composite": true,
