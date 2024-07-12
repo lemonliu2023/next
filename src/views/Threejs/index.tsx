@@ -1,6 +1,6 @@
 import routerConfig from '@/router';
 import { Menu, MenuProps } from 'antd';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -28,19 +28,26 @@ const Threejs = () => {
     });
     return menuItems;
   }, []);
-  const selectedKeys = location.pathname.split('/');
-
+  const [selectedKeys, setSelectKeys] = useState<string[]>([]);
+  console.log(selectedKeys, 'sss')
+  useEffect(() => {
+    const keyPathList = location.pathname.split('/').filter(item => Boolean(item))
+    if(keyPathList.pop() === 'threejs') {
+      navigate('/threejs/examples/wall')
+      return;
+    }
+    setSelectKeys(location.pathname.split('/'))
+  }, [navigate, location.pathname])
   return (
     <div style={{ height: '100%', display: 'flex' }}>
       <Menu
         style={{ width: 256, height: '100%' }}
         onClick={(e) => {
           const keyPathList = e.keyPath.reverse();
-          console.log(keyPathList, 'keyPathList');
           navigate(keyPathList.join('/'));
         }}
-        defaultSelectedKeys={selectedKeys}
-        defaultOpenKeys={selectedKeys}
+        selectedKeys={selectedKeys}
+        openKeys={selectedKeys}
         mode="inline"
         items={menuItems}
       />

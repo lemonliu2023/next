@@ -23,6 +23,10 @@ const routerConfig: RouteObject[] = [
           };
         },
         children: [
+          // {
+          //   path: '',
+          //   element: <Navigate to="examples/wall" />
+          // },
           {
             path: 'guide',
             lazy: async () => {

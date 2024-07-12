@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import wavelet from '@/views/Threejs/shaders/wavelet';
+import wavelet from '3DObjects/wavelet';
 
 const Wavelet = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');

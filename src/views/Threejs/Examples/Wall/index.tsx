@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect, useRef } from 'react';
-import WallMesh from '@/views/Threejs/shaders/wall';
+import WallMesh from '3DObjects/wall';
 
 const Wall = () => {
   const { sceneRef } = useInitAll('threejs-examples');
