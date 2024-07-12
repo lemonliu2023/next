@@ -168,6 +168,15 @@ const routerConfig: RouteObject[] = [
                       .default,
                   };
                 },
+              },
+              {
+                path: 'risePlane',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Examples/RisePlane'))
+                      .default,
+                  };
+                },
               }
             ],
           },

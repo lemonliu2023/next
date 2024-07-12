@@ -5,6 +5,6 @@
   - addToScene 添加到场景中
   - removeFromScene 从场景中移除
   - destroy 销毁
-  - create 创建模型
+  - create3DObject 创建模型
   - startAnimation
   - stopAnimation
