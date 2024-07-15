@@ -8,6 +8,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 const Threejs = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [selectedKeys, setSelectKeys] = useState<string[]>([]);
   const menuItems = useMemo<MenuItem[]>(() => {
     const threejsRouterConfig =
       routerConfig
@@ -17,7 +18,13 @@ const Threejs = () => {
     threejsRouterConfig.forEach((item) => {
       menuItems.push({
         key: item.path!,
-        label: item.path,
+        label: <div onClick={() => {
+          if(selectedKeys.includes(item.path!)) {
+            setSelectKeys(scopeSelectedKeys => scopeSelectedKeys.filter((key) => key !== item.path!));
+          } else {
+            setSelectKeys([...selectedKeys, item.path!]);
+          }
+        }}>{item.path}</div>,
         children: item.children?.map((subItem) => {
           return {
             key: subItem.path!,
@@ -27,16 +34,17 @@ const Threejs = () => {
       });
     });
     return menuItems;
-  }, []);
-  const [selectedKeys, setSelectKeys] = useState<string[]>([]);
+  }, [selectedKeys]);
   useEffect(() => {
-    const keyPathList = location.pathname.split('/').filter(item => Boolean(item))
-    if(keyPathList.pop() === 'threejs') {
-      navigate('/threejs/examples/wall')
+    const keyPathList = location.pathname
+      .split('/')
+      .filter((item) => Boolean(item));
+    if (keyPathList.pop() === 'threejs') {
+      navigate('/threejs/examples/wall');
       return;
     }
-    setSelectKeys(location.pathname.split('/'))
-  }, [navigate, location.pathname])
+    setSelectKeys(location.pathname.split('/'));
+  }, [navigate, location.pathname]);
   return (
     <div style={{ height: '100%', display: 'flex' }}>
       <Menu
