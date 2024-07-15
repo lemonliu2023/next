@@ -1,11 +1,12 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import wavelet from '3DObjects/wavelet';
+import Wavelet3DObject from '3DObjects/Wavelet';
 
 const Wavelet = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
   useEffect(() => {
-    sceneRef.current?.add(wavelet());
+    const waveletIns = new Wavelet3DObject(sceneRef.current!)
+    waveletIns.addToScene()
     
   }, [rendererRef, sceneRef]);
   return (

@@ -1,5 +1,13 @@
 import * as THREE from 'three';
 
+export interface IOptions {
+  radius: number; // 半径
+  color: string; // 颜色
+  circleNum: number; // 涟漪数量
+  position: THREE.Vector3; // 位置
+  speed: number; // 速度 1s 展示几个周期
+}
+
 // 自定义的顶点着色器和片元着色器
 const vertexShader = `  
 varying vec2 vUv;  
@@ -12,96 +20,100 @@ void main() {
 
 const fragmentShader = `  
 varying vec2 vUv;  
-uniform float uTime;  
-uniform vec2 uCenter;  
-uniform float uRadius;  
+uniform float u_time;  
 uniform vec3 u_color;
   
 void main() {  
     // 计算像素到涟漪中心的距离  
-    vec2 dist = (vUv - uCenter);  
+    vec2 dist = (vUv - vec2(0.5, 0.5));  
     float len = length(dist) * 2.0;  
 
-    float circle = sin(0.5 * 3.1415926 * mod(uTime, 1.0));
-
-    if(len < circle) {
-        gl_FragColor = vec4(1.0, .0, .0, pow((1.0 - circle + len), 5.0) * (1.0 - len));
+    if(len < u_time) {
+        gl_FragColor = vec4(u_color, pow((1.0 - u_time + len), 10.0) * (1.0 - len));
     }
 }  
 `;
-export default function (option = {}) {
-    const newOption = Object.assign({
-        color: '#f00',
-        position: { x: 0, y: 0, z: 0 }
-    }, option)
-    if(!newOption.position) {
-        throw new Error('请传入模型位置信息')
+
+const createWaveletMaterial = (radius: number, color: string) => {
+  return new THREE.ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+      u_time: { value: 0.0 }, // 初始时间值
+      uRadius: { value: radius }, // 涟漪的半径
+      u_color: {
+        value: new THREE.Color(color),
+      },
+    },
+    blending: THREE.NormalBlending,
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+};
+
+const initOptions: IOptions = {
+  radius: 50,
+  color: '#67C23A',
+  circleNum: 3,
+  position: new THREE.Vector3(0, 0, 0),
+  speed: 3,
+};
+
+export default class WallMesh {
+  name = 'Wavelet3DObject';
+  scene: THREE.Scene;
+  options: IOptions;
+  materials: THREE.ShaderMaterial[] = [];
+  geometry?: THREE.BufferGeometry;
+  object3D?: THREE.Object3D;
+  animationId?: number;
+  constructor(scene: THREE.Scene, options?: Partial<IOptions>) {
+    this.scene = scene;
+    this.options = {
+      ...initOptions,
+      ...options,
+    };
+  }
+  create3DObject() {
+    const { radius, color, circleNum, position } = this.options;
+    this.geometry = new THREE.CircleGeometry(radius, radius, 1, Math.PI * 2);
+    this.object3D = new THREE.Group();
+    for (let i = 0; i < circleNum; i++) {
+      const material = createWaveletMaterial(radius, color);
+      this.materials.push(material);
+      const mesh = new THREE.Mesh(this.geometry, material);
+      this.object3D.add(mesh);
+      mesh.position.copy(position);
+      mesh.rotation.x = -Math.PI / 2; // 将平面旋转90度，使其与XZ平面对齐
     }
-    const shaderMaterial = new THREE.ShaderMaterial({
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        uniforms: {
-            uTime: { value: 0.25 }, // 初始时间值
-            uCenter: { value: new THREE.Vector2(0.5, 0.5) }, // 涟漪中心位于屏幕中心
-            uRadius: { value: 20.0 }, // 涟漪的半径
-            u_color: {
-                value: new THREE.Color('#f00')
-            },
-        },
-        blending: THREE.NormalBlending,
-        transparent: true,
-        depthWrite:false
+    return this.object3D;
+  }
+  addToScene() {
+    const object3D = this.create3DObject();
+    this.startAnimation(performance.now());
+    this.scene.add(object3D);
+  }
+  removeFromScene() {}
+  startAnimation(animationStartTime: number) {
+    const { circleNum, speed } = this.options;
+    const currentTime = performance.now();
+    const moveTime = (currentTime - animationStartTime) * 0.001;
+    const step = 1.0 / circleNum;
+    this.materials?.forEach((item, index) => {
+      item.uniforms.u_time.value = Math.sin(
+        ((moveTime / speed + step * index) % 1.0) * Math.PI * 0.5
+      );
     });
-    const shaderMaterial2 = new THREE.ShaderMaterial({
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        uniforms: {
-            uTime: { value: 0.5 }, // 初始时间值
-            uCenter: { value: new THREE.Vector2(0.5, 0.5) }, // 涟漪中心位于屏幕中心
-            uRadius: { value: 20.0 }, // 涟漪的半径
-            u_color: {
-                value: new THREE.Color('#f00')
-            },
-        },
-        blending: THREE.NormalBlending,
-        transparent: true,
-        depthWrite:false
-    });
-    const shaderMaterial3 = new THREE.ShaderMaterial({
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        uniforms: {
-            uTime: { value: 0.75 }, // 初始时间值
-            uCenter: { value: new THREE.Vector2(0.5, 0.5) }, // 涟漪中心位于屏幕中心
-            uRadius: { value: 20.0 }, // 涟漪的半径
-            u_color: {
-                value: new THREE.Color('#f00')
-            },
-        },
-        blending: THREE.NormalBlending,
-        transparent: true,
-        depthWrite:false
-    });
-    const geometry = new THREE.CircleGeometry(50, 50, 1, Math.PI * 2); // 10x10的网格，1x1的分段  
-    const plane = new THREE.Mesh(geometry, shaderMaterial);
-    const plane2 = new THREE.Mesh(geometry, shaderMaterial2);
-    const plane3 = new THREE.Mesh(geometry, shaderMaterial3);
-    plane.rotation.x = - Math.PI / 2; // 将平面旋转90度，使其与XZ平面对齐  
-    plane.position.copy(newOption.position)
-    plane2.rotation.x = - Math.PI / 2; // 将平面旋转90度，使其与XZ平面对齐  
-    plane2.position.copy(newOption.position)
-    plane3.rotation.x = - Math.PI / 2; // 将平面旋转90度，使其与XZ平面对齐  
-    plane3.position.copy(newOption.position)
-    const group = new THREE.Group()
-    group.add(plane)
-    group.add(plane2)
-    group.add(plane3)
-    const animationFn = () => {
-        shaderMaterial.uniforms.uTime.value += 0.01
-        shaderMaterial2.uniforms.uTime.value += 0.01
-        shaderMaterial3.uniforms.uTime.value += 0.01
-        requestAnimationFrame(animationFn)
+    this.animationId = requestAnimationFrame(() =>
+      this.startAnimation(animationStartTime)
+    );
+  }
+  stopAnimation() {
+    if (!this.animationId) {
+      console.error(`${this.name}未开启动画，请检查`);
+      return;
     }
-    animationFn()
-    return group;
+    cancelAnimationFrame(this.animationId);
+  }
 }

@@ -29,7 +29,6 @@ const Threejs = () => {
     return menuItems;
   }, []);
   const [selectedKeys, setSelectKeys] = useState<string[]>([]);
-  console.log(selectedKeys, 'sss')
   useEffect(() => {
     const keyPathList = location.pathname.split('/').filter(item => Boolean(item))
     if(keyPathList.pop() === 'threejs') {
