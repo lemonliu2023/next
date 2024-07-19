@@ -72,6 +72,7 @@ export default class Tube3DObject {
     this.stopAnimation();
   }
   generateActiveMesh() {
+    let flag = false;
     if (this.activeGeometry) {
       this.activeGeometry.dispose();
     }
@@ -92,14 +93,14 @@ export default class Tube3DObject {
       if(this.curSegment < this.vector3Points.length - 1) {
         this.curSegment++
       } else {
-        return true
+        flag = true
       }
     } else {
       this.activeGeometry = geometry
       this.activeLineMesh = mesh
     }
     this.mesh?.add(mesh)
-    return false
+    return flag
   }
   startAnimation(animationStartTime: number) {
     const currentTime = performance.now();
