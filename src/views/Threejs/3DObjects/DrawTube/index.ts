@@ -36,11 +36,11 @@ export default class Tube3DObject {
     };
     const { points, step } = this.options;
     const filterPoints: THREE.Vector3[] = [];
-    points.reduce((prev, next) => {
-      if(!prev.equals(next)) {
-        filterPoints.push(prev);
+    points.forEach((point) => {
+      const lastOne = filterPoints[filterPoints.length - 1]
+      if(!lastOne || !lastOne.equals(point)) {
+        filterPoints.push(point)
       }
-      return next
     })
     filterPoints.reduce((prev, next, curIndex) => {
       const curve = new THREE.LineCurve3(prev, next);
