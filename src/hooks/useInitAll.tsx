@@ -29,8 +29,9 @@ export const initCamera = (element: HTMLElement) => {
     10000
   );
   camera.position.set(-100, 100, 100);
-  camera.lookAt(0, 0, 0);
-  // camera.position.z = 5;
+  // setTimeout(() => {
+  //   camera.lookAt(0, 20, 0);
+  // }, 1000)
   return camera;
 };
 
@@ -98,6 +99,9 @@ const useInitAll = (
       cameraRef.current,
       rendererRef.current.domElement
     ); // 可拖动
+    controlsRef.current.target.set(0, 20, 0)
+    cameraRef.current.lookAt(0, 20, 0);
+    controlsRef.current.update()
     const axesHelper = new THREE.AxesHelper(500);
     // const threeDRenderer = new CSS3DRenderer();
     // threeDRenderer.setSize(window.innerWidth - 200, window.innerHeight);

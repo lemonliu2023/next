@@ -2,7 +2,8 @@ import * as THREE from 'three';
 
 export interface IOptions {
   radius: number; // 半径
-  color: string; // 颜色
+  centerColor: string; // 中心颜色
+  edgeColor: string; // 边缘颜色
   circleNum: number; // 涟漪数量
   position: THREE.Vector3; // 位置
   speed: number; // 速度 1s 展示几个周期
@@ -21,12 +22,15 @@ void main() {
 const fragmentShader = `  
 varying vec2 vUv;  
 uniform float u_time;  
-uniform vec3 u_color;
+uniform vec3 u_centerColor;
+uniform vec3 u_edgeColor;
   
 void main() {  
     // 计算像素到涟漪中心的距离  
     vec2 dist = (vUv - vec2(0.5, 0.5));  
-    float len = length(dist) * 2.0;  
+    float len = length(dist) * 2.0;
+
+    vec3 u_color = vec3(u_centerColor.r + (u_edgeColor.r - u_centerColor.r) * u_time, u_centerColor.g + (u_edgeColor.g - u_centerColor.g) * u_time, u_centerColor.b + (u_edgeColor.b - u_centerColor.b) * u_time);
 
     if(len < u_time) {
         gl_FragColor = vec4(u_color, pow((1.0 - u_time + len), 10.0) * (1.0 - len));
@@ -34,16 +38,19 @@ void main() {
 }  
 `;
 
-const createWaveletMaterial = (radius: number, color: string) => {
+const createWaveletMaterial = (radius: number, centerColor: string, edgeColor: string) => {
   return new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
     uniforms: {
       u_time: { value: 0.0 }, // 初始时间值
       uRadius: { value: radius }, // 涟漪的半径
-      u_color: {
-        value: new THREE.Color(color),
+      u_centerColor: {
+        value: new THREE.Color(centerColor),
       },
+      u_edgeColor: {
+        value: new THREE.Color(edgeColor),
+      }
     },
     blending: THREE.NormalBlending,
     transparent: true,
@@ -54,10 +61,11 @@ const createWaveletMaterial = (radius: number, color: string) => {
 
 const initOptions: IOptions = {
   radius: 50,
-  color: '#67C23A',
+  centerColor: 'red',
+  edgeColor: '#F56C6C',
   circleNum: 3,
   position: new THREE.Vector3(0, 0, 0),
-  speed: 3,
+  speed: 1.5,
 };
 
 export default class WallMesh {
@@ -76,11 +84,11 @@ export default class WallMesh {
     };
   }
   create3DObject() {
-    const { radius, color, circleNum, position } = this.options;
+    const { radius, centerColor, edgeColor, circleNum, position } = this.options;
     this.geometry = new THREE.CircleGeometry(radius, radius, 1, Math.PI * 2);
     this.object3D = new THREE.Group();
     for (let i = 0; i < circleNum; i++) {
-      const material = createWaveletMaterial(radius, color);
+      const material = createWaveletMaterial(radius, centerColor, edgeColor);
       this.materials.push(material);
       const mesh = new THREE.Mesh(this.geometry, material);
       this.object3D.add(mesh);

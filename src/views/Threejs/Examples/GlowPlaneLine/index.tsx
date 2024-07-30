@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect, useMemo, useRef } from 'react';
-import GlowPlaneLineMesh from '../../shaders/glowPlaneLine';
-import normalBox from '../../shaders/normalBox';
+import GlowPlaneLineMesh from '3DObjects/glowPlaneLine';
+import normalBox from '3DObjects/normalBox';
 
 function PlaneLine() {
   const { sceneRef } = useInitAll('threejs-examples');

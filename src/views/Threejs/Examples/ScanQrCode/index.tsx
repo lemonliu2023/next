@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import scanQrCode from '@/views/Threejs/shaders/scanQrCode';
+import scanQrCode from '3DObjects/scanQrCode';
 
 const ScanQrCode = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');

@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import laser from '@/views/Threejs/shaders/laser';
+import laser from '3DObjects/laser';
 
 const Laser = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');

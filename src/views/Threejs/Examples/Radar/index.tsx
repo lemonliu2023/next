@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import radar from '@/views/Threejs/shaders/radar';
+import radar from '3DObjects/radar';
 
 const Radar = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');

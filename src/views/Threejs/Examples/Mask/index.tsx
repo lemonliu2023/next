@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import mask from '@/views/Threejs/shaders/mask';
+import mask from '3DObjects/mask';
 
 const Mask = () => {
     const { sceneRef } = useInitAll('threejs-examples')

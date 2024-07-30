@@ -1,7 +1,7 @@
 import useInitAll from '@/hooks/useInitAll';
 import { Button } from 'antd';
 import { useEffect, useRef } from 'react';
-import WallMesh from '3DObjects/wall';
+import WallMesh from '3DObjects/Wall';
 import radar from '3DObjects/radar';
 
 function RemoveMeshTest() {

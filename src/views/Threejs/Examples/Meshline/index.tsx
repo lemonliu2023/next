@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import meshline from '@/views/Threejs/shaders/meshline';
+import meshline from '3DObjects/meshline';
 
 const Meshline = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');

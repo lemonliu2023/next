@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { brokenLinePoints } from '../../data/points';
-import GlowBrokenGlowPlaneLineMesh from '../../shaders/growBrokenGlowPlaneLine';
+import GlowBrokenGlowPlaneLineMesh from '3DObjects/growBrokenGlowPlaneLine';
 import { useEffect, useRef } from 'react';
 
 const GrowBrokenGlowPlaneLine = () => {

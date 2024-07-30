@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
 import { useEffect } from 'react';
-import glsl from '@/views/Threejs/shaders/glsl';
+import glsl from '3DObjects/glsl';
 
 const Glsl = () => {
   const { sceneRef, rendererRef } = useInitAll('threejs-examples');
