@@ -15,7 +15,7 @@ export interface IOptions {
 }
 
 const initOptions: IOptions = {
-  color: 'red',
+  color: '#ff4d4f',
   width: 100,
   height: 100,
   position: new THREE.Vector3(0, 0, 0), // 平面中心位置
@@ -82,7 +82,7 @@ export default class WallMesh {
       50, 100, 50, 50, 100, -50, -50, 100, -50, -50, 100, 50, 50, 100, 50,
     ]);
     const m = new LineMaterial({
-      color: 'red',
+      color: '#ff4d4f',
       linewidth: 4,
       transparent: true,
       depthTest: false,
@@ -271,11 +271,11 @@ void main() {
   createSmallSquareMaterial() {
     const generateCode = () => {
       let str = '';
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 80; i++) {
         const randomX = Math.random();
         const randomY = Math.random();
         const randomZ = Math.random();
-        str += `if(vUv.x > ${randomX} && vUv.x < ${randomX} + 0.08 && vUv.y > ${randomY} && vUv.y < ${randomY} + 0.08 && u_moveTime > 1.0) {
+        str += `if(vUv.x > ${randomX} && vUv.x < ${randomX} + 0.06 && vUv.y > ${randomY} && vUv.y < ${randomY} + 0.06 && u_moveTime > 1.0) {
         gl_FragColor = vec4(u_color, 0.4 + (0.5+sin(3.0*u_pi*${randomZ}+u_moveTime*10.0)/2.0)*0.3);
         return;
       };`;
