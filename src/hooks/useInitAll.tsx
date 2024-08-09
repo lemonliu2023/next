@@ -28,7 +28,7 @@ export const initCamera = (element: HTMLElement) => {
     0.1,
     10000
   );
-  camera.position.set(-100, 100, 100);
+  camera.position.set(-200, 200, 200);
   // setTimeout(() => {
   //   camera.lookAt(0, 20, 0);
   // }, 1000)

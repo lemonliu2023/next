@@ -141,9 +141,12 @@ export default function (opts?: any, geometry?: any) {
     const material = generateMaterial(filename);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.set(rotation.x, rotation.y, rotation.z);
-    mesh.position.copy(position);
+    // fix 闪烁
     if(renderOrder) {
       mesh.renderOrder = renderOrder;
+      mesh.position.copy({...position, y: position.y - 1});
+    } else {
+      mesh.position.copy(position);
     }
     return mesh;
   }
@@ -188,7 +191,7 @@ export default function (opts?: any, geometry?: any) {
   const group = new THREE.Group();
   group.add(mesh);
   const centerMesh = generateMesh('radar_center.png', width);
-  group.add(generateMesh('radar_out.png', width, -1));
+  group.add(generateMesh('radar_out.png', width, -10));
   group.add(centerMesh);
 
   const animateFn = () => {

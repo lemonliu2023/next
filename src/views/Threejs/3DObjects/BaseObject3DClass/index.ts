@@ -2,33 +2,6 @@ import * as THREE from 'three';
 
 export interface IOptions {}
 
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const vertexShader = `
-uniform vec3 u_color;
-varying vec2 vUv;
-uniform float u_height;
-uniform float u_maxHeight;
-
-void main() {
-    vec3 vPosition = position;
-    vUv = uv;
-    vPosition.y = vPosition.y * u_height / u_maxHeight;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
-}
-`;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const fragmentShader = ` 
-uniform vec3 u_color;
-uniform float u_baseOpacity;
-varying vec2 vUv;
-
-void main() {
-
-}
-`;
-
 const initOptions: IOptions = {
   
 };

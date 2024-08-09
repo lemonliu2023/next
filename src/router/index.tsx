@@ -44,6 +44,15 @@ const routerConfig: RouteObject[] = [
                       .default,
                   };
                 }
+              },
+              {
+                path: 'whatIsShader',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Guide/WhatIsShader'))
+                      .default,
+                  };
+                }
               }
             ]
           },
@@ -178,6 +187,15 @@ const routerConfig: RouteObject[] = [
                 lazy: async () => {
                   return {
                     Component: (await import('@/views/Threejs/Examples/RisePlane'))
+                      .default,
+                  };
+                },
+              },
+              {
+                path: 'riseBox',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Examples/RiseBox'))
                       .default,
                   };
                 },
