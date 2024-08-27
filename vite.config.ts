@@ -17,7 +17,7 @@ export default defineConfig({
       '3DObjects': '/src/views/Threejs/3DObjects',
     },
   },
-  // base: `/${name}`,
+  base: `/${name}`,
   build: {
     outDir: 'docs',
   },
