@@ -45,6 +45,7 @@ const useInitAll = (
   elementId: string,
   options?: {
     useOutlinePass?: boolean;
+    useCustomControl?: boolean;
   }
 ) => {
   const rendererRef = useRef<THREE.WebGLRenderer>();
@@ -54,6 +55,7 @@ const useInitAll = (
   const outlinePassRef = useRef<OutlinePass>();
   const composerRef = useRef<EffectComposer>();
   const useOutlinePass = !!options?.useOutlinePass;
+  const useCustomControl = !!options?.useCustomControl;
   useEffect(() => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -95,13 +97,15 @@ const useInitAll = (
       composerRef.current.addPass(outlinePassRef.current);
     }
 
-    controlsRef.current = new OrbitControls(
-      cameraRef.current,
-      rendererRef.current.domElement
-    ); // 可拖动
-    controlsRef.current.target.set(0, 20, 0)
+    if (!useCustomControl) {
+      controlsRef.current = new OrbitControls(
+        cameraRef.current,
+        rendererRef.current.domElement
+      ); // 可拖动
+      controlsRef.current.target.set(0, 20, 0);
+      controlsRef.current.update();
+    }
     cameraRef.current.lookAt(0, 20, 0);
-    controlsRef.current.update()
     const axesHelper = new THREE.AxesHelper(500);
     // const threeDRenderer = new CSS3DRenderer();
     // threeDRenderer.setSize(window.innerWidth - 200, window.innerHeight);

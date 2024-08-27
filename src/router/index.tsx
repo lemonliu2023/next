@@ -53,6 +53,24 @@ const routerConfig: RouteObject[] = [
                       .default,
                   };
                 }
+              },
+              {
+                path: 'overlayCircleTest',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Guide/OverlayCircleTest'))
+                      .default,
+                  };
+                }
+              },
+              {
+                path: 'CameraControl',
+                lazy: async () => {
+                  return {
+                    Component: (await import('@/views/Threejs/Guide/CameraControl'))
+                      .default,
+                  };
+                }
               }
             ]
           },

@@ -1,0 +1,1 @@
+import{i as t,g as c,M as m,V as x}from"./useInitAll-CZsFa0QU.js";const l=(e=new x(0,0,0),r=1,a="red")=>{const o=new t(r,r,r),n=new c({color:a}),s=new m(o,n);return s.position.set(e.x,e.y,e.z),s};export{l as n};

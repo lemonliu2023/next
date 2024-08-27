@@ -14,6 +14,9 @@ dependencies:
   antd:
     specifier: ^5.18.3
     version: 5.18.3(react-dom@18.3.1)(react@18.3.1)
+  camera-controls:
+    specifier: ^2.9.0
+    version: 2.9.0(three@0.165.0)
   dayjs:
     specifier: ^1.11.11
     version: 1.11.11
@@ -435,7 +438,7 @@ packages:
   /@marktext/file-icons@1.0.6:
     resolution: {integrity: sha512-E9xMmaa4nqSdIjLfZyabIkbNMRPwr+SexzkRqGOWfLkgWiZHNL45JkiLLFBqBqn7ERUxzPgSVFt2MGnetlq2rA==}
     dependencies:
-      file-icons: git@github.com+file-icons/atom/2b897cb11552405322896080cb3406b96e678239
+      file-icons: github.com/file-icons/atom/2b897cb11552405322896080cb3406b96e678239
     dev: false
 
   /@mixmark-io/domino@2.2.0:
@@ -1212,7 +1215,7 @@ packages:
     dev: true
 
   /atom-fs@0.2.1:
-    resolution: {integrity: sha512-H+09ux1pNAPUbJqyrZ7lA/CpNmKqZURrYc23QzDUG29A380EYEnzwW99Do5VlT8SmZtyapOMySFesndgvZZGWg==}
+    resolution: {integrity: sha512-H+09ux1pNAPUbJqyrZ7lA/CpNmKqZURrYc23QzDUG29A380EYEnzwW99Do5VlT8SmZtyapOMySFesndgvZZGWg==, tarball: https://r2.cnpmjs.org/atom-fs/-/atom-fs-0.2.1.tgz}
     engines: {atom: '>=1.13.0'}
     dependencies:
       mapped-disposable: 1.0.3
@@ -1254,6 +1257,14 @@ packages:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
     dev: true
+
+  /camera-controls@2.9.0(three@0.165.0):
+    resolution: {integrity: sha512-TpCujnP0vqPppTXXJRYpvIy0xq9Tro6jQf2iYUxlDpPCNxkvE/XGaTuwIxnhINOkVP/ob2CRYXtY3iVYXeMEzA==}
+    peerDependencies:
+      three: '>=0.126.1'
+    dependencies:
+      three: 0.165.0
+    dev: false
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -2285,7 +2296,7 @@ packages:
     dev: false
 
   /lru-cache@5.1.1:
-    resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+    resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==, tarball: https://r2.cnpmjs.org/lru-cache/-/lru-cache-5.1.1.tgz}
     dependencies:
       yallist: 3.1.1
     dev: false
@@ -2303,7 +2314,7 @@ packages:
     dev: true
 
   /mapped-disposable@1.0.3:
-    resolution: {integrity: sha512-DpYYRSZjNB6tOg8E4BZ+rNsKe4WxoptwM8+JqHi8R0buJgHLmrmAfJtv4lcqqO1esTtxaPx4FXOR54bPoS9qwg==}
+    resolution: {integrity: sha512-DpYYRSZjNB6tOg8E4BZ+rNsKe4WxoptwM8+JqHi8R0buJgHLmrmAfJtv4lcqqO1esTtxaPx4FXOR54bPoS9qwg==, tarball: https://r2.cnpmjs.org/mapped-disposable/-/mapped-disposable-1.0.3.tgz}
     dev: false
 
   /marked-highlight@2.1.3(marked@12.0.2):
@@ -4108,7 +4119,7 @@ packages:
     dev: false
 
   /yallist@3.1.1:
-    resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
+    resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==, tarball: https://r2.cnpmjs.org/yallist/-/yallist-3.1.1.tgz}
     dev: false
 
   /yargs-parser@21.1.1:
@@ -4134,8 +4145,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  git@github.com+file-icons/atom/2b897cb11552405322896080cb3406b96e678239:
-    resolution: {commit: 2b897cb11552405322896080cb3406b96e678239, repo: git@github.com:file-icons/atom.git, type: git}
+  github.com/file-icons/atom/2b897cb11552405322896080cb3406b96e678239:
+    resolution: {tarball: https://codeload.github.com/file-icons/atom/tar.gz/2b897cb11552405322896080cb3406b96e678239}
     name: file-icons
     version: 2.1.47
     engines: {atom: '>=1.25.0'}

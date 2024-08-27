@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { isVector3 } from '../../utils';
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
@@ -40,10 +39,6 @@ export default class WallMesh {
       ...initOptions,
       ...options,
     };
-    if (!isVector3(this.options.position)) {
-      console.error(`${this.name}位置参数错误，请检查`);
-      return;
-    }
   }
   create3DObject() {
     const group = new THREE.Group();
@@ -83,11 +78,15 @@ export default class WallMesh {
     ]);
     const m = new LineMaterial({
       color: '#ff4d4f',
+      opacity: 0.5,
       linewidth: 4,
       transparent: true,
       depthTest: false,
       side: THREE.DoubleSide,
     });
+    // setInterval(() => {
+    //   m.opacity+=0.1
+    // }, 500)
     const line = new LineSegments2(g, m);
     vertices1.forEach((item) => {
       const object3D = new THREE.Mesh(geometry1, material1);
@@ -276,7 +275,7 @@ void main() {
         const randomY = Math.random();
         const randomZ = Math.random();
         str += `if(vUv.x > ${randomX} && vUv.x < ${randomX} + 0.06 && vUv.y > ${randomY} && vUv.y < ${randomY} + 0.06 && u_moveTime > 1.0) {
-        gl_FragColor = vec4(u_color, 0.4 + (0.5+sin(3.0*u_pi*${randomZ}+u_moveTime*10.0)/2.0)*0.3);
+        gl_FragColor = vec4(u_color, 0.3 + (0.5+sin(3.0*u_pi*${randomZ}+u_moveTime*5.0)/2.0)*0.3);
         return;
       };`;
       }
