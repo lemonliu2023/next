@@ -422,8 +422,8 @@ getLetterWidth('foo')
 ```
 
 # Mac 新电脑环境安装 2024.09.23
-> 背景：最近经常换电脑，每次重新配置环境百度查教程找到的都不一样，个人筛选半天费时费力，决定自己记录下来
-1. 安装 chrome, [iTerm2](https://iterm2.com/), vscode
+> 背景：最近经常换电脑，每次重新配置环境百度查教程找到的都不一样，筛选半天费时费力，决定记录下来
+1. 安装 chrome, [iTerm2](https://iterm2.com/), vscode，[lemon](https://lemon.qq.com/)
 2. chrome 登陆账号。如果不能翻墙，使用免费的插件 [SetupVPN](https://sxkk.throat.team//public/s/browser/chrome/)
 3. 安装 brew。国内镜像
 ```shell
