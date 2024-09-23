@@ -1,4 +1,5 @@
-- [内网路由配置](#内网路由配置)
+- [工具](#工具)
+- [路由配置](#路由配置)
 - [LRU 算法](#lru-算法)
 - [js快慢数组](#js快慢数组)
 - [hashtable](#hashtable)
@@ -6,20 +7,44 @@
 - [使用vnc访问远程系统](#使用vnc访问远程系统)
 - [grpc](#grpc)
 - [mac安装windows虚拟机](#mac安装windows虚拟机)
+- [TS 函数重载](#ts-函数重载)
+- [TS 和 JS 通信](#ts-和-js-通信)
+- [HTML 元素 label 标签介绍](#html-元素-label-标签介绍)
+- [css 布局之 grid](#css-布局之-grid)
+- [TS 碎碎](#ts-碎碎)
+  - [Element implicitly has an ‘any’ type because expression of type ‘string’ can’t be used to index type](#element-implicitly-has-an-any-type-because-expression-of-type-string-cant-be-used-to-index-type)
+- [Mac 新电脑环境安装 2024.09.23](#mac-新电脑环境安装-20240923)
 
-# 内网路由配置
+# 工具
+
+- 生成随机图片
+
+  https://picsum.photos/200/300  https://picsum.photos/
+
+- threejs 镜头控制器
+
+  https://yomotsu.github.io/camera-controls/
+
+- 简单预览图片工具
+
+  https://kirlovon.dev/zoomtastic/
+
+- threejs editor 
+
+  https://threejs.org/editor/index.html
+
+# 路由配置
+
+假设计算机上有 wifi 和 网线两种连接方式，你输入一个网址后计算机无法知道采用哪种方式解析，路由表就是告诉计算机解析方式的。
+使用 `netstat -nr` 查看路由表
+
+![image-20240923133034122](https://p.ipic.vip/y8gdzw.png)
+
+一二行是 wifi 和 网线的解析路径，下面 **10.200.1/24** 会采用网线解析，添加路由表的命令为：
+
+
 ```shell
 sudo -S route -n add -net 192.100.50.0 -netmask 255.255.255.0 10.200.101.1 
-sudo -S route -n add -net 192.100.20.0 -netmask 255.255.255.0 10.200.101.1 
-sudo -S route -n add -net 192.100.10.0 -netmask 255.255.255.0 10.200.101.1
-sudo -S route -n add -net 192.100.60.0 -netmask 255.255.255.0 10.200.101.1
-sudo -S route -n add -net 10.200.102.0 -netmask 255.255.255.0 10.200.101.1
-sudo -S route -n add -net 10.200.1.0 -netmask 255.255.255.0 10.200.101.1
-sudo -S route -n add -net 10.200.121.0 -netmask 255.255.255.0 10.200.101.1
-sudo -S route -n add -net 10.200.115.0 -netmask 255.255.255.0 10.200.101.1
-sudo route -n add -net 10.200.115.16 -netmask 255.255.255.0 10.200.101.1
-sudo route -n add -net 10.200.191.0 -netmask 255.255.255.0 10.200.101.1
-sudo -S route -n add -net 192.100.50.99 -netmask 255.255.255.0 10.200.101.1
 ```
 
 # LRU 算法
@@ -237,3 +262,203 @@ Ts 函数重载，第一个参数不同影响第二个参数，先把每种情�
 # TS 和 JS 通信
 
 可以使用模版字符串的形式 \`` 比如可以用在 Nodejs 服务的参数校验部分
+
+
+
+# HTML 元素 label 标签介绍
+
+label 标签为 input 元素提供标记，类似 span 标签，区别在于它为鼠标用户改进了可用性，可以关联特定表单控件
+
+应用场景：1. 点击 label 聚焦 input 框 2. 点击 label 选中 checkbox 3. 点击 label 上传文件。特别提下第三点，默认的上传控件需要使用 input 元素并设置 type = 'file' 属性![image-20240905100337282](/Users/zhangmo/Library/Application Support/typora-user-images/image-20240905100337282.png)无法更改按钮内部文字和右侧文字，此时就可以使用  label 关联此控件，并把 input 元素隐藏
+
+关联方式有两种：
+
+显式关联：label 的 for 属性指向控件的 id
+
+```html
+<label for="username">用户名</label>
+<input id="username" name="username">
+```
+
+隐式关联
+
+```html
+<label>
+用户名<input id="username" name="username">
+</label>
+```
+
+能使用显示关联的表单元素有：
+input type="text" 文本框，点击标签时关联的文本框获得焦点。
+input type="checkbox" 复选框，点击标签时选中或取消选中复选框。
+input type="radio" 单选框，点击标签时选中单选框。
+input type="file" 文件上传，点击标签时打开文件选择对话框。
+input type="password" 密码框，点击标签时密码框获得焦点。
+textarea 文本域，点击标签时文本域获得焦点。
+select 下拉框，点击标签时，下拉框获得焦点，不过并不展开下拉框选项。
+
+# css 布局之 grid
+
+```html
+div.grid-content>(div.card>h2{some title}+p{价物那整极高根必化张社说思准华。济算日能米单传年单政公学目九青动里儿。华交线次革里林人来去出量几主酸。老示百常知亲切红改准马酸周提地头。})*10
+```
+
+使用 vscode Emmet Abbreviation 语法生成节点结构
+
+期望实现效果：卡片的内容能根据屏幕宽度响应式变化，从而适应不同屏幕大小的设备
+
+为什么使用 flexbox ? 使用 flex-wrap 会造成最后一行如果没有充满宽度那么小卡片会铺满剩余空间不符合预期
+
+具体实现：
+
+```css
+html {
+  background-color: #000;
+}
+.grid-content {
+  display: grid;
+  /* 控制列数及列的宽度 */
+  /* grid-template-columns: 250px 250px 250px; */ 
+  /* 上面的简写 */
+  /* grid-template-columns: repeat(4, 300px); */
+  /* 4 1fr 重复四次 每部分占一份 响应式 */
+  /* grid-template-columns: repeat(4, 1fr); */
+  /* 固定宽度 gap无法填充剩余空间 */
+  /* grid-template-columns: repeat(auto-fit, 300px); */
+  /* minmax 函数指定每列最小最大宽度 */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+}
+.card {
+  padding: 2em;
+  border: 1px solid rgb(75, 82, 92);
+  border-radius: 10px;
+  background: #222429;
+  text-align: center;
+  color: #fff;
+}
+```
+
+```html
+lorem2000 生成两千个字符
+```
+
+使用 vscode Emmet Abbreviation 语法生成节点结构
+
+
+
+![image-20240909090212773](https://p.ipic.vip/stth3f.png)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>b Tag</title>
+	<style>
+		body {
+			text-align: center;
+		}
+		h1 {
+			color: green;
+		}
+	</style>
+</head>
+<body>
+	<h1>GeeksforGeeks</h1>
+	<p><i>Iron Man</i> is a hero.</p>
+	<p>Gfg is the <em>best</em> educational site.</p>
+</body>
+</html>
+```
+
+**Note:** Here, there is no added emphasis or importance on the word “Iron Man”. It just indicates here iron isn’t a mineral or metal but it refers to a character. But in the next sentence the reader will use verbal stress on the word “best”. 
+**注：**在这里，没有对“钢铁侠”这个词的强调或重要性。它只是表明这里的铁不是一种矿物或金属，而是指一种性质。但在下一句中，读者会对“best”这个词使用动词重音。
+
+```html
+<!-- html5 标签 -->
+<mark>This text is marked (mark tag)</mark>
+<br/><br/>
+<del>This text is deleted or invalid (del tag)</del>
+<br/><br/>
+<ins>This text is inserted (ins tag)</ins>
+```
+
+# TS 碎碎
+
+## Element implicitly has an ‘any’ type because expression of type ‘string’ can’t be used to index type
+
+Let’s say you have a piece of typescript code like below:
+
+```ts
+const letterAspectRatio = {
+  a: 0.5589996337890625,
+  A: 0.6569992065429687,
+} as const
+const getLetterWidth = (letter: string, fontSize: number) => {
+  return letterAspectRatio[letter] || 1
+}
+getLetterWidth('foo')
+```
+
+ts 会报类似标题的错误，原因是 ts 把 letterAspectRatio 的 key 和 value 的类型也推断了，类型为 { readonly a: 0.5589996337890625...  }，如果随意传入 letter: string 它就认为是错误，很显然上面的代码是想利用 js 对象取值的逻辑如果取到返回对应值否则返回 undefined，如何避免 ts 报错呢？
+
+查询 stackoverflow 大部分人的思路是欺骗 ts，虽然能避免编辑器飘红，但逻辑上说不通，letter 传入到下面就是 string 类型，不应直接断言为 letterAspectRatio 的 key
+```ts
+const getLetterWidth = (letter: string, fontSize: number) => {
+  return letterAspectRatio[letter as keyof typeof letterAspectRatio] || 1
+}
+```
+我的想法是在 letterAspectRatio 上加一个类型声明，模糊ts推断，只推断 letter 的类型为 string。注意这个常量一般会被导出，所以不应直接修改它的类型而是重新声明一个变量
+```ts
+const letterAspectRatio = {
+  a: 0.5589996337890625,
+  A: 0.6569992065429687,
+} as const
+const letterAspectRatioCache: Record<string, number> = letterAspectRatio
+const getLetterWidth = (letter: string, fontSize: number) => {
+  return letterAspectRatioCache[letter] || 1
+}
+getLetterWidth('foo')
+```
+
+# Mac 新电脑环境安装 2024.09.23
+> 背景：最近经常换电脑，每次重新配置环境百度查教程找到的都不一样，个人筛选半天费时费力，决定自己记录下来
+1. 安装 chrome, [iTerm2](https://iterm2.com/), vscode
+2. chrome 登陆账号。如果不能翻墙，使用免费的插件 [SetupVPN](https://sxkk.throat.team//public/s/browser/chrome/)
+3. 安装 brew。国内镜像
+```shell
+/bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
+```
+4. 安装 ohmyzsh。国内镜像
+```shell
+sh -c "$(curl -fsSL https://gitee.com/shmhlsy/oh-my-zsh-install.sh/raw/master/install.sh)"
+```
+安装成功后会生成 ~/.zshrc 用于配置
+5. 安装 ohmyzsh 插件。命令高亮，自动提示
+```shell
+cd ~/.oh_my_zsh/plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/zsh-users/zsh-autosuggestions.git
+```
+编辑 ~/.zshrc
+```zshrc
+plugins=(
+    # other plugins...
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+```
+6. 安装 nvm。
+```shell
+brew install nvm
+```
+安装完成后把最后的一段代码复制到 ~/.zshrc 最后，然后 source 保存
+```shell
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+```
+apple 芯片安装 nvm 后无法安装 node，需配置镜像，也是在 ~/.zshrc 中添加
+```shell
+export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
+```
