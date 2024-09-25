@@ -3,6 +3,8 @@ import { DEFAULT_MARKDOWN } from '../data';
 import { useEffect, useState } from 'react';
 import { Skeleton, message } from 'antd';
 import './index.css'
+import '@muyajs/core/lib/style.css';
+
 
 const OnlyView = () => {
   const [showSkeleton, setShowSkeleton] = useState(false);

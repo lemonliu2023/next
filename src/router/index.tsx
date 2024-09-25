@@ -226,7 +226,7 @@ const routerConfig: RouteObject[] = [
         path: '/markdown',
         lazy: async () => {
           return {
-            Component: (await import('@/views/Markdown')).default,
+            Component: (await import('@/views/MarkDown')).default,
           };
         },
       },
@@ -234,7 +234,7 @@ const routerConfig: RouteObject[] = [
         path: '/markdown/onlyView/',
         lazy: async () => {
           return {
-            Component: (await import('@/views/Markdown/OnlyView/index.tsx'))
+            Component: (await import('@/views/MarkDown/OnlyView'))
               .default,
           };
         },
