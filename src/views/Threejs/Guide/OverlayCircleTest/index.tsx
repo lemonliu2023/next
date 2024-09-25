@@ -1,6 +1,6 @@
 import useInitAll from '@/hooks/useInitAll';
-import WallMesh from '../../3DObjects/Wall';
-import WaveletMesh from '../../3DObjects/Wavelet';
+import WallMesh from '3DObjects/Wall';
+import WaveletMesh from '3DObjects/Wavelet';
 import { useEffect } from 'react';
 
 function RemoveMeshTest() {
