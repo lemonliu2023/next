@@ -269,7 +269,7 @@ Ts 函数重载，第一个参数不同影响第二个参数，先把每种情�
 
 label 标签为 input 元素提供标记，类似 span 标签，区别在于它为鼠标用户改进了可用性，可以关联特定表单控件
 
-应用场景：1. 点击 label 聚焦 input 框 2. 点击 label 选中 checkbox 3. 点击 label 上传文件。特别提下第三点，默认的上传控件需要使用 input 元素并设置 type = 'file' 属性![image-20240905100337282](/Users/zhangmo/Library/Application Support/typora-user-images/image-20240905100337282.png)无法更改按钮内部文字和右侧文字，此时就可以使用  label 关联此控件，并把 input 元素隐藏
+应用场景：1. 点击 label 聚焦 input 框 2. 点击 label 选中 checkbox 3. 点击 label 上传文件。特别提下第三点，默认的上传控件需要使用 input 元素并设置 type = 'file' 属性![image-20240905100337282](https://p.ipic.vip/x6j8c7.png)无法更改按钮内部文字和右侧文字，此时就可以使用  label 关联此控件，并把 input 元素隐藏
 
 关联方式有两种：
 
