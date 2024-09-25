@@ -277,6 +277,14 @@ type RulesType<T extends Record<string, JSTypes>> = {
   [K in keyof T]: JSTypeMap[T[K]];
 };
 
+declare function addImpl<T extends JSTypes[]>(...args: [
+    ...T,
+    (...args: ArgsType<T>) => any
+]): any
+
+
+addImpl('string', 'function', (a, b) => {})
+
 declare function validate<T extends Record<string, JSTypes>>(
   rules: T,
   obj: any
