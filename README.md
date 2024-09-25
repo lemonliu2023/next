@@ -261,7 +261,38 @@ Ts 函数重载，第一个参数不同影响第二个参数，先把每种情�
 
 # TS 和 JS 通信
 
-可以使用模版字符串的形式 \`` 比如可以用在 Nodejs 服务的参数校验部分
+1. 可以使用模版字符串的形式 \`` 比如可以用在 Nodejs 服务的参数校验部分
+2. 映射
+```ts
+type JSTypeMap = {
+  number: number;
+  string: string;
+  symbol: Symbol;
+  function: Function;
+};
+
+type JSTypes = keyof JSTypeMap;
+
+type RulesType<T extends Record<string, JSTypes>> = {
+  [K in keyof T]: JSTypeMap[T[K]];
+};
+
+declare function validate<T extends Record<string, JSTypes>>(
+  rules: T,
+  obj: any
+): RulesType<T>;
+
+const res = validate(
+  {
+    a: 'string',
+    b: 'number',
+  },
+  { a: '1', b: 2 }
+);
+
+const a = res.a; // string
+const b = res.b; // number
+```
 
 
 
